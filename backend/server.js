@@ -23,6 +23,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/homeowners", require("./routes/homeowners"));
 app.use("/api/contractors", require("./routes/contractorRoutes"));
+app.use("/api/properties", require("./routes/property"));
+// app.use("/api/auth", require("./routes/userauth"));
+app.use("/api/properties", require("./routes/property"));
+
 
 // app.use('/api/profile', require('./routes/addProfileRoutes'));
 
