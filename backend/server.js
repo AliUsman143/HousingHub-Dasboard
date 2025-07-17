@@ -26,8 +26,8 @@ app.use("/api/contractors", require("./routes/contractorRoutes"));
 app.use("/api/properties", require("./routes/property"));
 // app.use("/api/auth", require("./routes/userauth"));
 app.use("/api/properties", require("./routes/property"));
-
-
+app.use("/api/maintenance", require("./routes/maintenance"));
+app.use("/api/appliances",  require("./routes/appliances"));
 // app.use('/api/profile', require('./routes/addProfileRoutes'));
 
 connectDB().then(() => {
