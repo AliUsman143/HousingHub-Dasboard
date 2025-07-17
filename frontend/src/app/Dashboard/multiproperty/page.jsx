@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import axios from "axios";
+import Link from "next/link";
 import { CiBellOn } from "react-icons/ci";
 import ProfileDropdown from "../components/ProfileDropdown";
 // Search Icon SVG
@@ -42,6 +43,8 @@ const PropertyPage = () => {
     const fetchProperties = async () => {
       try {
         const res = await axios.get("http://localhost:5000/api/properties");
+        console.log("wtyrwey", res);
+
         setProperties(res.data);
         setLoading(false);
       } catch (err) {
@@ -188,14 +191,11 @@ const PropertyPage = () => {
               className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-full bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <button
-            onClick={() =>
-              (window.location.href = "/Dashboard/multiproperty/create")
-            }
-            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow text-sm font-semibold"
-          >
-            + Add Property
-          </button>
+          <Link href="/Dashboard/multiproperty/create">
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded shadow text-sm font-semibold">
+              + Add Property
+            </button>
+          </Link>
         </div>
 
         {/* Property Cards */}
@@ -236,7 +236,6 @@ const PropertyPage = () => {
                     </svg>
                   </div>
                 </div>
-
                 {/* Property Info */}
                 <div className="flex-1  text-sm sm:text-base">
                   <h2 className="text-xl mb-2 font-bold break-words">
@@ -275,15 +274,15 @@ const PropertyPage = () => {
                     </div>
                   </div>
                 </div>
-
-                <button
-                  onClick={() =>
-                    (window.location.href = `/Dashboard/multiproperty/${property._id}/view`)
-                  }
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm"
+              
+                <Link
+                  href={`/Dashboard/multiproperty/${property._id}/view`}
+                  passHref
                 >
-                  View Property
-                </button>
+                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm">
+                    View Property
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

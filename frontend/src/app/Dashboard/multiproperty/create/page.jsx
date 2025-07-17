@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebarr";
 import ProfileDropdown from "../../components/ProfileDropdown";
 import { CiBellOn } from "react-icons/ci";
 import { HexColorPicker } from "react-colorful";
+import Link from "next/link";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -41,38 +42,36 @@ const Page = () => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const formData = new FormData();
-  formData.append("colorTheme", colorTheme);
-  formData.append("propertyName", propertyName);
-  formData.append("address", address);
-  formData.append("purchaseDate", purchaseDate);
-  formData.append("purchasePrice", purchasePrice);
-  formData.append("yearBuilt", yearBuilt);
-  formData.append("interestRate", interestRate);
-  formData.append("sizeSqft", sizeSqft);
-  if (propertyImage) {
-    formData.append("propertyImage", propertyImage);
-  }
+    const formData = new FormData();
+    formData.append("colorTheme", colorTheme);
+    formData.append("propertyName", propertyName);
+    formData.append("address", address);
+    formData.append("purchaseDate", purchaseDate);
+    formData.append("purchasePrice", purchasePrice);
+    formData.append("yearBuilt", yearBuilt);
+    formData.append("interestRate", interestRate);
+    formData.append("sizeSqft", sizeSqft);
+    if (propertyImage) {
+      formData.append("propertyImage", propertyImage);
+    }
 
-  try {
-    const response = await fetch("http://localhost:5000/api/properties", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/properties", {
+        method: "POST",
+        body: formData,
+      });
 
-    const result = await response.json();
-    console.log(result);
-    alert("Property submitted successfully!");
-  } catch (err) {
-    console.error(err);
-    alert("Submission failed!");
-  }
-};
+      const result = await response.json();
+      console.log(result);
+      alert("Property submitted successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Submission failed!");
+    }
+  };
 
   // if (isLoading) {
   //   return (
@@ -376,15 +375,14 @@ const Page = () => {
 
             {/* Buttons */}
             <div className="flex justify-end space-x-4 pt-6">
-              <button
-               onClick={() =>
-              (window.location.href = "/Dashboard/multiproperty")
-            }
-                type="button"
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 font-semibold hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
-              >
-                Cancel
-              </button>
+              <Link href="/Dashboard/multiproperty">
+                <button
+                  type="button"
+                  className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 font-semibold hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+                >
+                  Cancel
+                </button>
+              </Link>
               <button
                 type="submit"
                 className="px-6 py-2 bg-orange-500 text-white rounded-md font-semibold hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
@@ -400,9 +398,3 @@ const Page = () => {
 };
 
 export default Page;
-
-
-
-
-
-
