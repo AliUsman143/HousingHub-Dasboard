@@ -198,101 +198,90 @@ const PropertyPage = () => {
           </Link>
         </div>
 
-        {/* Property Cards */}
-        <div className="p-4 grid grid-cols-1 gap-3">
-          {filteredProperties.map((property, index) => (
-            <div
-              key={property._id?.$oid || index}
-              className={`rounded-lg shadow-md overflow-hidden ${
-                cardBackgroundColors[index % cardBackgroundColors.length]
-              }`}
+       {/* Property Cards */}
+<div className="p-4 grid grid-cols-1 gap-3">
+  {filteredProperties.map((property, index) => (
+    <div
+      key={property._id?.$oid || index}
+      className={`rounded-lg shadow-md overflow-hidden ${
+        cardBackgroundColors[index % cardBackgroundColors.length]
+      }`}
+    >
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 gap-4">
+        {/* Image */}
+        <div className="flex-shrink-0 relative w-24 h-24 sm:w-28 sm:h-28 mx-auto sm:mx-0">
+          <img
+            src={
+              property.propertyImage
+                ? `http://localhost:5000/uploads/${property.propertyImage}`
+                : "https://placehold.co/128x128/cccccc/ffffff?text=Property"
+            }
+            alt="Property"
+            className="rounded-lg object-cover w-full h-full"
+            onError={(e) => {
+              e.target.src =
+                "https://placehold.co/128x128/cccccc/ffffff?text=Property";
+            }}
+          />
+          <div className="absolute top-0 left-0 w-full h-full">
+            <svg
+              className="w-full h-full"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
             >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 gap-4 flex-wrap">
-                {/* Image */}
-                <div className="flex-shrink-0 relative w-20 h-20 sm:w-28 sm:h-28 mx-auto sm:mx-0">
-                  <img
-                    src={
-                      property.propertyImage
-                        ? `http://localhost:5000/uploads/${property.propertyImage}`
-                        : "https://placehold.co/128x128/cccccc/ffffff?text=Property"
-                    }
-                    alt="Property"
-                    className="rounded-lg object-cover w-full h-full"
-                    onError={(e) => {
-                      e.target.src =
-                        "https://placehold.co/128x128/cccccc/ffffff?text=Property";
-                    }}
-                  />
-                  <div className="absolute top-0 left-0 w-full h-full">
-                    <svg
-                      className="w-full h-full"
-                      viewBox="0 0 100 100"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M 0,0 L 100,0 A 100,100 0 0,1 0,100 Z"
-                        fill="rgba(255, 255, 0, 0.5)"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                {/* Property Info */}
-                <div className="flex-1  text-sm sm:text-base">
-                  <h2 className="text-xl mb-2 font-bold break-words">
-                    {property.propertyName || "Property Name"}
-                  </h2>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <div className="flex-1">
-                      <span className="font-semibold text-black">Address:</span>
-                      <p className="text-gray-700 break-words">
-                        {property.address || "N/A"}
-                      </p>
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-black">
-                        Purchase Date:
-                      </span>
-                      <p className="text-gray-700">
-                        {property.purchaseDate || "N/A"}
-                      </p>
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-black">
-                        Year Built:
-                      </span>
-                      <p className="text-gray-700">
-                        {property.yearBuilt || "N/A"}
-                      </p>
-                    </div>
-                    <div className="flex-1">
-                      <span className="font-semibold text-black">
-                        Square Foot:
-                      </span>
-                      <p className="text-gray-700">
-                        {property.sizeSqft || "N/A"} sq ft
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              
-                <Link
-                  href={`/Dashboard/multiproperty/${property._id}/view`}
-                  passHref
-                >
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm">
-                    View Property
-                  </button>
-                </Link>
-              </div>
-            </div>
-          ))}
-
-          {filteredProperties.length === 0 && (
-            <div className="bg-gray-100 text-center py-8 rounded-lg text-gray-500">
-              No properties found.
-            </div>
-          )}
+              <path
+                d="M 0,0 L 100,0 A 100,100 0 0,1 0,100 Z"
+                fill="rgba(255, 255, 0, 0.5)"
+              />
+            </svg>
+          </div>
         </div>
+
+        {/* Property Info */}
+        <div className="flex-1 text-sm sm:text-base space-y-2">
+          <h2 className="text-lg font-bold break-words text-center sm:text-left">
+            {property.propertyName || "Property Name"}
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2">
+            <div>
+              <span className="font-semibold text-black">Address:</span>
+              <p className="text-gray-700 break-words">{property.address || "N/A"}</p>
+            </div>
+            <div>
+              <span className="font-semibold text-black">Purchase Date:</span>
+              <p className="text-gray-700">{property.purchaseDate || "N/A"}</p>
+            </div>
+            <div>
+              <span className="font-semibold text-black">Year Built:</span>
+              <p className="text-gray-700">{property.yearBuilt || "N/A"}</p>
+            </div>
+            <div>
+              <span className="font-semibold text-black">Square Foot:</span>
+              <p className="text-gray-700">{property.sizeSqft || "N/A"} sq ft</p>
+            </div>
+          </div>
+        </div>
+
+        {/* View Button */}
+        <div className="flex justify-center sm:justify-end">
+          <Link href={`/Dashboard/multiproperty/${property._id}/view`} passHref>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded text-sm w-full sm:w-auto">
+              View Property
+            </button>
+          </Link>
+        </div>
+      </div>
+    </div>
+  ))}
+
+  {filteredProperties.length === 0 && (
+    <div className="bg-gray-100 text-center py-8 rounded-lg text-gray-500">
+      No properties found.
+    </div>
+  )}
+</div>
+
       </main>
     </div>
   );
