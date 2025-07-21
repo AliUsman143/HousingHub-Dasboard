@@ -1,3 +1,4 @@
+// SignUpPage.jsx
 "use client";
 
 import React, { useState } from "react";
@@ -10,8 +11,13 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import Link from "next/link";
+import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import axios from "axios"; // Import axios for API calls
 
 const SignUpPage = () => {
+  const router = useRouter(); // Initialize useRouter
+
+  // Signup states
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -19,74 +25,81 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isExistingUser, setIsExistingUser] = useState(false);
+
+  // Login states
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  // UI state for switching between forms
+  const [isExistingUser, setIsExistingUser] = useState(false);
 
-  if (isExistingUser) {
-    // Handle login
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+  // Loading and Error states
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    if (isExistingUser) {
+      // Handle Login
+      try {
+        const response = await axios.post("http://localhost:5000/api/auth/login", {
           username: loginUsername,
           password: loginPassword,
-        }),
-      });
-      
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-      
-      console.log("Login successful:", data);
-      // Handle successful login (redirect, store token, etc.)
-    } catch (error) {
-      console.error("Login error:", error);
-      alert(error.message);
-    }
-  } else {
-    // Handle signup
-    if (password !== confirmPassword) {
-      alert("Passwords don't match!");
-      return;
-    }
+        });
 
-    try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+        if (response.data.token) {
+          // Store token (e.g., in localStorage)
+          localStorage.setItem("userToken", response.data.token);
+          localStorage.setItem("userInfo", JSON.stringify(response.data));
+          setSuccess("Login successful! Redirecting...");
+          // Redirect to PackagesPagemain or home page
+          router.push("/Firstuser/PackagesPagemain");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Login failed. Please check your credentials.");
+        console.error("Login error:", err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      // Handle Sign Up
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await axios.post("http://localhost:5000/api/auth/signup", {
           username,
           email,
           phone,
           password,
-        }),
-      });
-      
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Registration failed");
+          confirmPassword,
+        });
+
+        if (response.data.token) {
+          // Store token (e.g., in localStorage)
+          localStorage.setItem("userToken", response.data.token);
+          localStorage.setItem("userInfo", JSON.stringify(response.data));
+          setSuccess("Registration successful! Redirecting to Home page...");
+          // Optionally, redirect to a PackagesPagemain or a login page
+          router.push("/Firstuser/PackagesPagemain");
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || "Registration failed. Please try again.");
+        console.error("Signup error:", err);
+      } finally {
+        setLoading(false);
       }
-      
-      console.log("Registration successful:", data);
-      alert("Registration successful! You can now sign in.");
-      setIsExistingUser(true); // Switch to login form after successful registration
-    } catch (error) {
-      console.error("Registration error:", error);
-      alert(error.message);
     }
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -102,9 +115,25 @@ const handleSubmit = async (e) => {
           </p>
         </div>
 
+        {/* Success and Error Messages */}
+        {error && (
+          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span className="block sm:inline">{error}</span>
+          </div>
+        )}
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+            <span className="block sm:inline">{success}</span>
+          </div>
+        )}
+
         <div className="flex justify-center mb-5">
           <button
-            onClick={() => setIsExistingUser(!isExistingUser)}
+            onClick={() => {
+              setIsExistingUser(!isExistingUser);
+              setError(null); // Clear errors on tab switch
+              setSuccess(null); // Clear success on tab switch
+            }}
             className="text-blue-600 hover:text-blue-800 text-sm font-medium"
           >
             {isExistingUser
@@ -269,8 +298,9 @@ const handleSubmit = async (e) => {
           <button
             type="submit"
             className="w-full bg-orange-500 text-white py-3 rounded-md font-semibold text-lg shadow-md hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
+            disabled={loading} // Disable button while loading
           >
-            {isExistingUser ? "Sign In" : "Register Now"}
+            {loading ? (isExistingUser ? "Signing In..." : "Registering...") : (isExistingUser ? "Sign In" : "Register Now")}
           </button>
         </form>
       </div>
