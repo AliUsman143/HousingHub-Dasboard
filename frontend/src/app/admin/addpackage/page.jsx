@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
-import Link from "next/link";
 import ProfileDropdown from "../components/ProfileDropdown";
 
 const BellIcon = ({ className }) => (
@@ -22,12 +21,67 @@ const BellIcon = ({ className }) => (
 );
 
 const CreatePackagesPage = () => {
-  const [basicTagline, setBasicTagline] = useState("");
-  const [basicPrice, setBasicPrice] = useState("");
-  const [basicPropertyCount, setBasicPropertyCount] = useState("");
+  // State for each package type
+  const [basicPackage, setBasicPackage] = useState({
+    tagline: "",
+    price: "",
+    propertyCount: ""
+  });
+  const [standardPackage, setStandardPackage] = useState({
+    tagline: "",
+    price: "",
+    propertyCount: ""
+  });
+  const [premiumPackage, setPremiumPackage] = useState({
+    tagline: "",
+    price: "",
+    propertyCount: ""
+  });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
+
+  // Load existing packages on component mount
+  useEffect(() => {
+    const fetchPackages = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/packages');
+        const data = await response.json();
+        
+        if (data.success) {
+          data.data.forEach(pkg => {
+            switch(pkg.packageType) {
+              case 'Basic':
+                setBasicPackage({
+                  tagline: pkg.tagline,
+                  price: pkg.price.toString(),
+                  propertyCount: pkg.propertyCount
+                });
+                break;
+              case 'Standard':
+                setStandardPackage({
+                  tagline: pkg.tagline,
+                  price: pkg.price.toString(),
+                  propertyCount: pkg.propertyCount
+                });
+                break;
+              case 'Premium':
+                setPremiumPackage({
+                  tagline: pkg.tagline,
+                  price: pkg.price.toString(),
+                  propertyCount: pkg.propertyCount
+                });
+                break;
+            }
+          });
+        }
+      } catch (error) {
+        console.error('Error loading packages:', error);
+      }
+    };
+
+    fetchPackages();
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -39,15 +93,54 @@ const CreatePackagesPage = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
-  const handleSave = () => {
-    alert(`Save clicked!\nTagline: ${basicTagline}\nPrice: ${basicPrice}\nProperties: ${basicPropertyCount}`);
+  const handleSave = async () => {
+    try {
+      const packagesToSave = [
+        {
+          packageType: 'Basic',
+          tagline: basicPackage.tagline,
+          price: Number(basicPackage.price),
+          propertyCount: basicPackage.propertyCount
+        },
+        {
+          packageType: 'Standard',
+          tagline: standardPackage.tagline,
+          price: Number(standardPackage.price),
+          propertyCount: standardPackage.propertyCount
+        },
+        {
+          packageType: 'Premium',
+          tagline: premiumPackage.tagline,
+          price: Number(premiumPackage.price),
+          propertyCount: premiumPackage.propertyCount
+        }
+      ];
+
+      const response = await fetch('http://localhost:5000/api/packages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ packages: packagesToSave })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert('✅ Packages saved successfully!');
+      } else {
+        alert(`❌ Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error('Error saving packages:', error);
+      alert('❌ Failed to save packages');
+    }
   };
 
   const handleCancel = () => {
-    setBasicTagline("");
-    setBasicPrice("");
-    setBasicPropertyCount("");
-    alert("Form cleared!");
+    setBasicPackage({ tagline: "", price: "", propertyCount: "" });
+    setStandardPackage({ tagline: "", price: "", propertyCount: "" });
+    setPremiumPackage({ tagline: "", price: "", propertyCount: "" });
   };
 
   return (
@@ -80,77 +173,201 @@ const CreatePackagesPage = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
 
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">Packages</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+            Packages
+          </h1>
 
           <div className="flex items-center space-x-4 md:space-x-6">
             <div className="relative cursor-pointer">
               <BellIcon className="h-6 w-6 md:h-7 md:w-7 text-gray-500 hover:text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 w-3 h-3 rounded-full" />
             </div>
-            <ProfileDropdown currentProfile={{
-              profilePicture: "https://placehold.co/40x40/cccccc/ffffff?text=U",
-              username: "Admin"
-            }} />
+            <ProfileDropdown
+              currentProfile={{
+                profilePicture: "https://placehold.co/40x40/cccccc/ffffff?text=U",
+                username: "Admin",
+              }}
+            />
           </div>
         </div>
 
         {/* Page Heading */}
         <div className="bg-white text-center rounded-lg border border-gray-200 p-6">
           <div className="mb-6">
-            <h2 className="text-3xl md:text-5xl font-bold mb-2 text-[#002f86]">Create Packages</h2>
-            <p className="text-gray-500 text-sm">Set the prices as per your requirement</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-2 text-[#002f86]">
+              Create Packages
+            </h2>
+            <p className="text-gray-500 text-sm">
+              Set the prices as per your requirement
+            </p>
           </div>
 
           {/* Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {["Basic", "Standard", "Premium"].map((label, index) => (
-              <div key={index} className="border border-gray-200 rounded-2xl">
-                <div className="bg-[#f57c00] text-white text-center py-3 font-bold rounded-t-2xl">
-                  {label}
+            {/* Basic Package */}
+            <div className="border border-gray-200 rounded-2xl">
+              <div className="bg-[#f57c00] text-white text-center py-3 font-bold rounded-t-2xl">
+                Basic
+              </div>
+              <div className="p-4 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tagline
+                  </label>
+                  <input
+                    type="text"
+                    value={basicPackage.tagline}
+                    onChange={(e) => setBasicPackage({...basicPackage, tagline: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  />
                 </div>
-                <div className="p-4 space-y-3">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                      $
+                    </span>
                     <input
-                      type="text"
-                      value={basicTagline}
-                      onChange={(e) => setBasicTagline(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                      type="number"
+                      value={basicPackage.price}
+                      onChange={(e) => setBasicPackage({...basicPackage, price: e.target.value})}
+                      className="pl-7 w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
                     />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
-                    <div className="relative">
-                      <span className="absolute left-3 top-2 text-gray-500 text-sm">$</span>
-                      <input
-                        type="number"
-                        value={basicPrice}
-                        onChange={(e) => setBasicPrice(e.target.value)}
-                        className="pl-7 w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Property Count</label>
-                    <select
-                      value={basicPropertyCount}
-                      onChange={(e) => setBasicPropertyCount(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      <option value="">Select count</option>
-                      <option value="5">Up to 5</option>
-                      <option value="20">Up to 20</option>
-                      <option value="100">Up to 100</option>
-                      <option value="unlimited">Unlimited</option>
-                    </select>
-                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Property Count
+                  </label>
+                  <select
+                    value={basicPackage.propertyCount}
+                    onChange={(e) => setBasicPackage({...basicPackage, propertyCount: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select count</option>
+                    <option value="5">Up to 5</option>
+                    <option value="20">Up to 20</option>
+                    <option value="100">Up to 100</option>
+                    <option value="unlimited">Unlimited</option>
+                  </select>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Standard Package */}
+            <div className="border border-gray-200 rounded-2xl">
+              <div className="bg-[#f57c00] text-white text-center py-3 font-bold rounded-t-2xl">
+                Standard
+              </div>
+              <div className="p-4 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tagline
+                  </label>
+                  <input
+                    type="text"
+                    value={standardPackage.tagline}
+                    onChange={(e) => setStandardPackage({...standardPackage, tagline: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                      $
+                    </span>
+                    <input
+                      type="number"
+                      value={standardPackage.price}
+                      onChange={(e) => setStandardPackage({...standardPackage, price: e.target.value})}
+                      className="pl-7 w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Property Count
+                  </label>
+                  <select
+                    value={standardPackage.propertyCount}
+                    onChange={(e) => setStandardPackage({...standardPackage, propertyCount: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select count</option>
+                    <option value="5">Up to 5</option>
+                    <option value="20">Up to 20</option>
+                    <option value="100">Up to 100</option>
+                    <option value="unlimited">Unlimited</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Premium Package */}
+            <div className="border border-gray-200 rounded-2xl">
+              <div className="bg-[#f57c00] text-white text-center py-3 font-bold rounded-t-2xl">
+                Premium
+              </div>
+              <div className="p-4 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tagline
+                  </label>
+                  <input
+                    type="text"
+                    value={premiumPackage.tagline}
+                    onChange={(e) => setPremiumPackage({...premiumPackage, tagline: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Price
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-2 text-gray-500 text-sm">
+                      $
+                    </span>
+                    <input
+                      type="number"
+                      value={premiumPackage.price}
+                      onChange={(e) => setPremiumPackage({...premiumPackage, price: e.target.value})}
+                      className="pl-7 w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Property Count
+                  </label>
+                  <select
+                    value={premiumPackage.propertyCount}
+                    onChange={(e) => setPremiumPackage({...premiumPackage, propertyCount: e.target.value})}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select count</option>
+                    <option value="5">Up to 5</option>
+                    <option value="20">Up to 20</option>
+                    <option value="100">Up to 100</option>
+                    <option value="unlimited">Unlimited</option>
+                  </select>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Buttons */}
