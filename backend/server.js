@@ -1,3 +1,4 @@
+// backend/server.js
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -24,14 +25,10 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/homeowners", require("./routes/homeowners"));
 app.use("/api/contractors", require("./routes/contractorRoutes"));
 app.use("/api/properties", require("./routes/property"));
-// app.use("/api/auth", require("./routes/userauth"));
-app.use("/api/properties", require("./routes/property"));
+app.use("/api/auth", require("./routes/userauth")); // <-- ADD THIS LINE
 app.use("/api/maintenance", require("./routes/maintenance"));
-app.use("/api/appliances",  require("./routes/appliances"));
+app.use("/api/appliances", require("./routes/appliances"));
 app.use("/api/packages", require("./routes/packageRoutes"));
-// Add with other route imports
-
-// app.use('/api/profile', require('./routes/addProfileRoutes'));
 
 connectDB().then(() => {
   app.listen(5000, () =>

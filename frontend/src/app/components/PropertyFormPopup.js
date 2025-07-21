@@ -32,7 +32,7 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
       purchasePrice,
       yearBuilt,
       interestRate,
-      sizeSqft
+      sizeSqft,
     };
     onSubmit(formData);
   };
@@ -41,17 +41,14 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-orange-500 rounded-t-lg px-8 py-2 flex justify-between items-center">
+        <div className="bg-orange-500 rounded-t-lg px-8 py-1 flex justify-between items-center">
           <h2 className="text-lg font-bold text-white">Property Details</h2>
-          <button 
-            onClick={onClose}
-            className="text-white hover:text-gray-200"
-          >
+          <button onClick={onClose} className="text-white hover:text-gray-200">
             ×
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 space-y-3">
           {/* Form fields remain the same as your CreatePropertyPage */}
           {/* Set Color Theme */}
           <div>
@@ -95,7 +92,7 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
               required
             />
           </div>
-  {/* Property Image */}
+          {/* Property Image */}
           <div>
             <label
               htmlFor="propertyImage"
@@ -111,7 +108,7 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
               onChange={handleImageChange}
             />
             <div
-              className="w-24 h-24 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors"
+              className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-blue-500 transition-colors"
               onClick={() => document.getElementById("propertyImage").click()}
             >
               {propertyImage ? (
@@ -143,9 +140,7 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
               )}
             </div>
             {propertyImage && (
-              <p className="text-sm text-gray-500">
-                {propertyImage.name}
-              </p>
+              <p className="text-sm text-gray-500">{propertyImage.name}</p>
             )}
           </div>
 
@@ -168,7 +163,7 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
           </div>
 
           {/* Grid for Purchase Date, Price, Year Built, Interest Rate, Size */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
             {/* Purchase Date */}
             <div>
               <label
@@ -259,9 +254,9 @@ const PropertyFormPopup = ({ onClose, onSubmit }) => {
               />
             </div>
           </div>
-        
+
           {/* Buttons */}
-          <div className="flex justify-end space-x-3 pt-4">
+          <div className="flex justify-end space-x-6 ">
             <button
               type="button"
               onClick={onClose}

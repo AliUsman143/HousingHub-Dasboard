@@ -1,30 +1,83 @@
+// backend/routes/userauth.js
 const express = require("express");
 const router = express.Router();
-const User = require("../models/usersign");
+const UserSign = require("../models/usersign");
+const jwt = require("jsonwebtoken");
 
+// Generate JWT Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "1h", // Token expires in 1 hour
+  });
+};
 
-router.post("/", async (req, res) => {
-  console.log("🚀 POST /api/auth hit"); // ✅ add this
-  console.log("🧠 Body:", req.body);     // ✅ add this
+// @desc    Register a new user
+// @route   POST /api/auth/signup
+// @access  Public
+router.post("/signup", async (req, res) => {
+  const { username, email, phone, password, confirmPassword } = req.body;
 
-  const { username, email, phone, password } = req.body;
-
-  if (!username || !email || !phone || !password) {
-    return res.status(400).json({ message: "All fields are required" });
+  if (password !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match." });
   }
 
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(409).json({ message: "User already exists with this email" });
+    // Check if user already exists
+    const userExists = await UserSign.findOne({ $or: [{ email }, { username }, { phone }] });
+
+    if (userExists) {
+      return res.status(400).json({ message: "User with this email, username, or phone already exists." });
     }
 
-    const newUser = new User({ username, email, phone, password });
-    await newUser.save();
+    const user = await UserSign.create({
+      username,
+      email,
+      phone,
+      password, // Password will be hashed by the pre-save hook
+    });
 
-    res.status(201).json({ message: "User registered successfully!" });
+    if (user) {
+      res.status(201).json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(400).json({ message: "Invalid user data." });
+    }
   } catch (error) {
-    console.error("Signup Error:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    console.error("Signup error:", error);
+    res.status(500).json({ message: "Server error during signup." });
   }
 });
+
+// @desc    Authenticate user & get token
+// @route   POST /api/auth/login
+// @access  Public
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Find user by username (or email, depending on your login strategy)
+    const user = await UserSign.findOne({ username });
+
+    if (user && (await user.matchPassword(password))) {
+      res.json({
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        token: generateToken(user._id),
+      });
+    } else {
+      res.status(401).json({ message: "Invalid username or password." });
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Server error during login." });
+  }
+});
+
+module.exports = router;
