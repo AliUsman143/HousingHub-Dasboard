@@ -259,12 +259,14 @@ const PropertyForm = () => {
 
             {/* Tiny Buttons at Bottom */}
             <div className="flex justify-end space-x-2">
-              <button
-                type="submit"
-                className="px-3 py-1 text-xs bg-orange-500 text-white rounded"
-              >
-                Save
-              </button>
+             <Link href="/Dashboard/dashboard">
+                <button
+                  type="submit"
+                  className="px-3 py-1 text-xs bg-orange-500 text-white rounded"
+                >
+                  Save
+                </button>
+              </Link>
             </div>
           </form>
         </div>

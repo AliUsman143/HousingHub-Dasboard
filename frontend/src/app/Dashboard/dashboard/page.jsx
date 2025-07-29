@@ -24,25 +24,6 @@ const Page = () => {
   }, [isSidebarOpen]);
 
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex min-h-screen bg-white">
-  //       <div ref={sidebarRef}>
-  //         <Sidebar
-  //           isSidebarOpen={isSidebarOpen}
-  //           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-  //         />
-  //       </div>
-  //       <div
-  //         className={`flex-1 flex items-center justify-center transition-all duration-300 ${
-  //           isSidebarOpen ? "lg:ml-64" : "lg:ml-0"
-  //         }`}
-  //       >
-  //         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="flex min-h-screen bg-white">
