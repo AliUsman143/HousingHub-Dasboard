@@ -3,11 +3,14 @@ import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import ProfileDropdown from "../components/ProfileDropdown";
 import { CiBellOn } from "react-icons/ci";
+import Link from "next/link";
+import StGamerPropertyCard from "../../components/StGamerPropertyCard";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-  // const [isLoading, setIsLoading] = useState(true);
+  const [latestProperty, setLatestProperty] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -23,7 +26,30 @@ const Page = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
+  // Fetch the latest property
+  useEffect(() => {
+    const fetchLatestProperty = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch("http://localhost:5000/api/properties");
+        if (response.ok) {
+          const properties = await response.json();
+          // Get the most recently added property (first in the array since they're sorted by createdAt: -1)
+          if (properties.length > 0) {
+            setLatestProperty(properties[0]);
+          }
+        } else {
+          console.error("Failed to fetch properties");
+        }
+      } catch (error) {
+        console.error("Error fetching properties:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
+    fetchLatestProperty();
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-white">
@@ -83,9 +109,22 @@ const Page = () => {
           </div>
         </div>
 
-       
-
-   
+        {/* Latest Property Card Section */}
+        <div className="mb-8">
+          <h2 className="text-lg font-semibold mb-4">Latest Property Added</h2>
+          
+          {isLoading ? (
+            <div className="flex justify-center items-center h-40 bg-gray-100 rounded-lg">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
+            </div>
+          ) : latestProperty ? (
+            <StGamerPropertyCard property={latestProperty} />
+          ) : (
+            <div className="bg-gray-100 text-center py-8 rounded-lg text-gray-500">
+              No properties found. <Link href="/Firstuser/addproperty" className="text-blue-500 hover:underline">Add your first property</Link>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
