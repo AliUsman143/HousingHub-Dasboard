@@ -1,13 +1,30 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Keep useRouter for navigation after save
+
 const PropertyForm = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-  // const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
+  // State for form fields
+  const [colorTheme, setColorTheme] = useState("#007bff"); // Default blue
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [propertyName, setPropertyName] = useState("");
+  const [propertyImage, setPropertyImage] = useState(null); // Stores the File object
+  const [address, setAddress] = useState("");
+  const [purchaseDate, setPurchaseDate] = useState("");
+  const [purchasePrice, setPurchasePrice] = useState("");
+  const [yearBuilt, setYearBuilt] = useState("");
+  const [interestRate, setInterestRate] = useState("");
+  const [sizeSqft, setSizeSqft] = useState("");
+
+  // State for submission feedback
+  const [submitting, setSubmitting] = useState(false);
+  const [submissionSuccess, setSubmissionSuccess] = useState(false);
+  const [submissionError, setSubmissionError] = useState(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -22,17 +39,6 @@ const PropertyForm = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
-  const [colorTheme, setColorTheme] = useState("#007bff"); // Default blue
-  const [showColorPicker, setShowColorPicker] = useState(false); // To toggle color picker visibility
-  const [propertyName, setPropertyName] = useState("");
-  const [propertyImage, setPropertyImage] = useState(null); // Stores the File object
-  const [address, setAddress] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState("");
-  const [purchasePrice, setPurchasePrice] = useState("");
-  const [yearBuilt, setYearBuilt] = useState("");
-  const [interestRate, setInterestRate] = useState("");
-  const [sizeSqft, setSizeSqft] = useState("");
-
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setPropertyImage(e.target.files[0]);
@@ -40,7 +46,10 @@ const PropertyForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
+    setSubmitting(true);
+    setSubmissionSuccess(false);
+    setSubmissionError(null);
 
     const formData = new FormData();
     formData.append("colorTheme", colorTheme);
@@ -56,17 +65,40 @@ const PropertyForm = () => {
     }
 
     try {
+      // Ensure your backend is running on http://localhost:5000
       const response = await fetch("http://localhost:5000/api/properties", {
         method: "POST",
         body: formData,
       });
 
       const result = await response.json();
-      console.log(result);
-      alert("Property submitted successfully!");
+
+      if (!response.ok) {
+        // If response is not OK (e.g., 4xx or 5xx status)
+        throw new Error(result.message || "Failed to add property.");
+      }
+
+      console.log("Property submitted successfully:", result);
+      setSubmissionSuccess(true);
+      // Optionally reset form fields after successful submission
+      setPropertyName("");
+      setPropertyImage(null);
+      setAddress("");
+      setPurchaseDate("");
+      setPurchasePrice("");
+      setYearBuilt("");
+      setInterestRate("");
+      setSizeSqft("");
+      setColorTheme("#007bff"); // Reset to default color
+
+      // Navigate to dashboard after successful submission
+      router.push("/Dashboard/dashboard");
+
     } catch (err) {
-      console.error(err);
-      alert("Submission failed!");
+      console.error("Error submitting property:", err);
+      setSubmissionError(err.message || "Submission failed! Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -257,16 +289,32 @@ const PropertyForm = () => {
               </div>
             </div>
 
+            {/* Submission Feedback */}
+            {submitting && (
+              <p className="text-center text-blue-600 text-xs mt-2">
+                Saving property...
+              </p>
+            )}
+            {submissionSuccess && (
+              <p className="text-center text-green-600 text-xs mt-2">
+                Property added successfully!
+              </p>
+            )}
+            {submissionError && (
+              <p className="text-center text-red-600 text-xs mt-2">
+                Error: {submissionError}
+              </p>
+            )}
+
             {/* Tiny Buttons at Bottom */}
             <div className="flex justify-end space-x-2">
-             <Link href="/Dashboard/dashboard">
-                <button
-                  type="submit"
-                  className="px-3 py-1 text-xs bg-orange-500 text-white rounded"
-                >
-                  Save
-                </button>
-              </Link>
+              <button
+                type="submit" // Ensure this is type="submit"
+                className="px-3 py-1 text-xs bg-orange-500 text-white rounded hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={submitting} // Disable button while submitting
+              >
+                {submitting ? "Saving..." : "Save"}
+              </button>
             </div>
           </form>
         </div>
