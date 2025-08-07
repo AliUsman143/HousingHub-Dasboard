@@ -1,19 +1,16 @@
-import React from 'react'
-import SignUpPage from './components/signup'
-import PackagesPagemain from './components/packages'
-import PaymentPage from './components/PaymentPage'
-import AddPropertyPage from './components/AddPropertyPage'
-// import CreatePropertyPage from './components/CreatePropertyPage'
-const page = () => {
-  return (
-    <div>
-      <SignUpPage />
-      {/* <PackagesPagemain /> */}
-      {/* <PaymentPage/> */}
-      {/* <AddPropertyPage/> */}
-      {/* <CreatePropertyPage/> */}
-    </div>
-  )
-}
+'use client';
 
-export default page
+ import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+const HomePage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push('/signup');
+  }, [router]);
+
+  return null; // Or a loading spinner, etc.
+};
+
+export default HomePage;

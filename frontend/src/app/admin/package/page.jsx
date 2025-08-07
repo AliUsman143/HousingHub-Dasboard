@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import ProfileDropdown from "../components/ProfileDropdown";
 
 // Icons
 const CubeIcon = ({ className }) => (
@@ -130,11 +129,7 @@ export default function PackagesDashboard() {
       </span>
     </div>
 
-    {/* Profile Dropdown */}
-    <ProfileDropdown currentProfile={{
-      profilePicture: "https://placehold.co/40x40/cccccc/ffffff?text=U",
-      username: "Admin"
-    }} />
+   
   </div>
 </div>
 

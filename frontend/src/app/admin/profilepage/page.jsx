@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
-import ProfileDropdown from "../components/ProfileDropdown";
 
 // Icons
 const BellIcon = ({ className }) => (
@@ -261,7 +260,7 @@ const ProfileSettingPage = () => {
             </button>
             <h1 className="text-xl font-bold text-gray-800">Create Profile</h1>
           </div>
-          <ProfileDropdown />
+         
         </div>
 
         {/* Profile Form */}

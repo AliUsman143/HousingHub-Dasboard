@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
-import ProfileDropdown from "../components/ProfileDropdown";
-import { CiBellOn } from "react-icons/ci";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -149,19 +147,7 @@ const Page = () => {
             </h1>
           </div>
 
-          <div className="flex items-center space-x-4 self-end sm:self-auto">
-            <div className="relative cursor-pointer">
-              <CiBellOn className="h-5 w-5 sm:h-6 sm:w-6 text-gray-500 hover:text-gray-700" />
-              <span className="absolute -top-1 -right-1 bg-red-500 w-2 h-2 sm:w-3 sm:h-3 rounded-full" />
-            </div>
-            <ProfileDropdown
-              currentProfile={{
-                profilePicture:
-                  "https://placehold.co/40x40/cccccc/ffffff?text=U",
-                username: "Admin",
-              }}
-            />
-          </div>
+        
         </div>
 
         {/* Stats Cards */}

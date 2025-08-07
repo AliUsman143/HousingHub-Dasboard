@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from "react"; // ✅ include useEf
 import { useRouter } from "next/navigation";
 import Sidebar from "../components/sidebar/Sidebarr";
 
-import ProfileDropdown from "../components/ProfileDropdown";
 
 // SVG Icons
 const SearchIcon = ({ className }) => (
@@ -206,14 +205,7 @@ const UserListPage = () => {
               <BellIcon className="h-5 w-5 sm:h-7 sm:w-7 text-gray-500 hover:text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 w-2 h-2 sm:w-3 sm:h-3 rounded-full" />
             </div>
-            {/* Profile Dropdown */}
-            <ProfileDropdown
-              currentProfile={{
-                profilePicture:
-                  "https://placehold.co/40x40/cccccc/ffffff?text=U",
-                username: "Admin",
-              }}
-            />
+           
           </div>
         </div>
 

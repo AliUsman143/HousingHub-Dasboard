@@ -3,8 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import axios from "axios";
 import Link from "next/link";
-import { CiBellOn } from "react-icons/ci";
-import ProfileDropdown from "../components/ProfileDropdown";
 // Search Icon SVG
 const SearchIcon = ({ className }) => (
   <svg
@@ -164,16 +162,7 @@ const PropertyPage = () => {
           </h1>
 
           <div className="flex items-center space-x-4 md:space-x-6">
-            <div className="relative cursor-pointer">
-              <CiBellOn className="h-6 w-6 md:h-7 md:w-7 text-gray-500 hover:text-gray-700" />
-              <span className="absolute -top-1 -right-1 bg-red-500 w-3 h-3 rounded-full" />
-            </div>
-            <ProfileDropdown
-              currentProfile={{
-                profilePicture: "https://placehold.co/40x40",
-                username: "Admin",
-              }}
-            />
+     
           </div>
         </div>
 

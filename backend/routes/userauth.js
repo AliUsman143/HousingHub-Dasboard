@@ -42,6 +42,7 @@ router.post("/signup", async (req, res) => {
         username: user.username,
         email: user.email,
         phone: user.phone,
+        role: user.role,
         token: generateToken(user._id),
       });
     } else {
@@ -69,6 +70,7 @@ router.post("/login", async (req, res) => {
         username: user.username,
         email: user.email,
         phone: user.phone,
+        role: user.role,
         token: generateToken(user._id),
       });
     } else {

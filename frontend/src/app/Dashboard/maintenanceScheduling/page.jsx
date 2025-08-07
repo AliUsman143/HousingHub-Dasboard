@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import Link from "next/link";
-// import ProfileDropdown from "../components/ProfileDropdown";
 import { MdOutlineDateRange } from "react-icons/md"; // For the calendar icon
 
 const page = () => {

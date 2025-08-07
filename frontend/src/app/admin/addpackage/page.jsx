@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
-import ProfileDropdown from "../components/ProfileDropdown";
 
 const BellIcon = ({ className }) => (
   <svg
@@ -191,12 +190,7 @@ const CreatePackagesPage = () => {
               <BellIcon className="h-6 w-6 md:h-7 md:w-7 text-gray-500 hover:text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 w-3 h-3 rounded-full" />
             </div>
-            <ProfileDropdown
-              currentProfile={{
-                profilePicture: "https://placehold.co/40x40/cccccc/ffffff?text=U",
-                username: "Admin",
-              }}
-            />
+          
           </div>
         </div>
 

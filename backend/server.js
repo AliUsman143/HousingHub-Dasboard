@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
+const roleAuth = require('./middleware/roleAuth');
 
 dotenv.config();
 

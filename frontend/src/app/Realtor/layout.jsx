@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { ProfileProvider } from "../context/ProfileContext";
 // import Header from './components/header/Header'
 
 function layout({ children }) {
@@ -8,7 +7,7 @@ function layout({ children }) {
     <div>
       <div className="bg-gray-100">
         {/* <Header/> */}
-        <ProfileProvider>{children}</ProfileProvider>
+      {children}
       </div>
     </div>
   );

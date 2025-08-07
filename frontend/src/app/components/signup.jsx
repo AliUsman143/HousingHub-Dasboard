@@ -58,8 +58,12 @@ const SignUpPage = () => {
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Login successful! Redirecting...");
-          // Redirect to PackagesPagemain or home page
-          router.push("/Firstuser/PackagesPagemain");
+          const userRole = response.data.role; // Assuming role is in response.data
+          if (userRole === 'admin') {
+            router.push("/admin/addpackage");
+          } else {
+            router.push("/Firstuser/PackagesPagemain");
+          }
         }
       } catch (err) {
         setError(err.response?.data?.message || "Login failed. Please check your credentials.");
@@ -88,9 +92,13 @@ const SignUpPage = () => {
           // Store token (e.g., in localStorage)
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
-          setSuccess("Registration successful! Redirecting to Home page...");
-          // Optionally, redirect to a PackagesPagemain or a login page
-          router.push("/Firstuser/PackagesPagemain");
+          setSuccess("Registration successful! Redirecting...");
+          const userRole = response.data.role; // Assuming role is in response.data
+          if (userRole === 'admin') {
+            router.push("/admin/addpackage");
+          } else {
+            router.push("/Firstuser/PackagesPagemain");
+          }
         }
       } catch (err) {
         setError(err.response?.data?.message || "Registration failed. Please try again.");

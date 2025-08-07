@@ -2,8 +2,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebarr";
 import Link from "next/link";
-import ProfileDropdown from "../../components/ProfileDropdown";
-import { CiBellOn } from "react-icons/ci";
 
 const Page = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -104,15 +102,7 @@ const Page = () => {
             </svg>
           </button>
           <h1 className="text-2xl font-bold text-gray-800">Add Contractor</h1>
-          <div className="flex items-center space-x-4">
-            <CiBellOn className="h-6 w-6 text-gray-500" />
-            <ProfileDropdown
-              currentProfile={{
-                profilePicture: "https://placehold.co/40x40",
-                username: "Admin",
-              }}
-            />
-          </div>
+        
         </div>
 
         {/* Form */}
