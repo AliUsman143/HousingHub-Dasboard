@@ -168,28 +168,7 @@ const SignUpPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {!isExistingUser && (
-            <div className="flex justify-center">
-              <div className="relative">
-                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
-                  {previewImage ? (
-                    <img src={previewImage} alt="Profile" className="w-full h-full object-cover" />
-                  ) : (
-                    <FaUser className="text-4xl text-gray-500" />
-                  )}
-                </div>
-                <label className="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-2 cursor-pointer">
-                  <FaCamera />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
-              </div>
-            </div>
-          )}
+        
 
           {isExistingUser ? (
             <>
