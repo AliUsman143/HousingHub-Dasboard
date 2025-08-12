@@ -9,13 +9,14 @@ import {
   FaLock,
   FaEye,
   FaEyeSlash,
+  FaCamera,
 } from "react-icons/fa";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
-import axios from "axios"; // Import axios for API calls
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const SignUpPage = () => {
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
   // Signup states
   const [username, setUsername] = useState("");
@@ -25,19 +26,29 @@ const SignUpPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [profileImage, setProfileImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
 
   // Login states
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [showLoginPassword, setShowLoginPassword] = useState(false);
 
-  // UI state for switching between forms
+  // UI state
   const [isExistingUser, setIsExistingUser] = useState(false);
 
   // Loading and Error states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setProfileImage(file);
+      setPreviewImage(URL.createObjectURL(file));
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,11 +65,10 @@ const SignUpPage = () => {
         });
 
         if (response.data.token) {
-          // Store token (e.g., in localStorage)
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Login successful! Redirecting...");
-          const userRole = response.data.role; // Assuming role is in response.data
+          const userRole = response.data.role;
           if (userRole === 'admin') {
             router.push("/admin/addpackage");
           } else {
@@ -80,20 +90,27 @@ const SignUpPage = () => {
       }
 
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/signup", {
-          username,
-          email,
-          phone,
-          password,
-          confirmPassword,
+        const formData = new FormData();
+        formData.append("username", username);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("password", password);
+        formData.append("confirmPassword", confirmPassword);
+        if (profileImage) {
+          formData.append("profileImage", profileImage);
+        }
+
+        const response = await axios.post("http://localhost:5000/api/auth/signup", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
 
         if (response.data.token) {
-          // Store token (e.g., in localStorage)
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Registration successful! Redirecting...");
-          const userRole = response.data.role; // Assuming role is in response.data
+          const userRole = response.data.role;
           if (userRole === 'admin') {
             router.push("/admin/addpackage");
           } else {
@@ -139,8 +156,8 @@ const SignUpPage = () => {
           <button
             onClick={() => {
               setIsExistingUser(!isExistingUser);
-              setError(null); // Clear errors on tab switch
-              setSuccess(null); // Clear success on tab switch
+              setError(null);
+              setSuccess(null);
             }}
             className="text-blue-600 hover:text-blue-800 text-sm font-medium"
           >
@@ -151,6 +168,29 @@ const SignUpPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {!isExistingUser && (
+            <div className="flex justify-center">
+              <div className="relative">
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  {previewImage ? (
+                    <img src={previewImage} alt="Profile" className="w-full h-full object-cover" />
+                  ) : (
+                    <FaUser className="text-4xl text-gray-500" />
+                  )}
+                </div>
+                <label className="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-2 cursor-pointer">
+                  <FaCamera />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+          )}
+
           {isExistingUser ? (
             <>
               {/* Login Form */}
@@ -302,11 +342,10 @@ const SignUpPage = () => {
             </>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-orange-500 text-white py-3 rounded-md font-semibold text-lg shadow-md hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            disabled={loading} // Disable button while loading
+            disabled={loading}
           >
             {loading ? (isExistingUser ? "Signing In..." : "Registering...") : (isExistingUser ? "Sign In" : "Register Now")}
           </button>

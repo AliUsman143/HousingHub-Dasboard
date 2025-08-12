@@ -1,8 +1,11 @@
+// Navbar.jsx
 "use client";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CiBellOn } from "react-icons/ci";
+import { FaUserCircle } from "react-icons/fa";
+
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const router = useRouter();
@@ -20,9 +23,10 @@ const Navbar = () => {
 
   const logoutHandler = () => {
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("userToken");
     setUser(null);
-    setIsDropdownOpen(false); // Close dropdown on logout
-    router.push("/signup"); // Redirect to signup page after logout
+    setIsDropdownOpen(false);
+    router.push("/signup");
   };
 
   return (
@@ -42,17 +46,34 @@ const Navbar = () => {
                   </div>
                   <button
                     onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                    className="text-white focus:outline-none"
+                    className="flex items-center space-x-2 focus:outline-none"
                   >
-                    Welcome, {user.username}
+                    {user.profileImage ? (
+                      <img
+                        src={user.profileImage}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <FaUserCircle className="text-2xl text-gray-300" />
+                    )}
+                    <span>Welcome, {user.username}</span>
                   </button>
                 </div>
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg py-1 z-20">
+                    <Link
+                     href="/profile"
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-600"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Update Profile
+                    </Link>
                     {user.role === "admin" && (
                       <Link
                         href="/admin"
                         className="block px-4 py-2 text-sm text-white hover:bg-gray-600"
+                        onClick={() => setIsDropdownOpen(false)}
                       >
                         Admin Dashboard
                       </Link>
@@ -73,8 +94,7 @@ const Navbar = () => {
                 Login
               </Link>
             </div>
-          ) : // Render nothing or a loading state on the server/initial client render
-          null}
+          ) : null}
         </div>
       </div>
     </nav>

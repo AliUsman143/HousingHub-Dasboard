@@ -1,62 +1,59 @@
 // backend/models/usersign.js
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs"); // For password hashing
-
-const userSignSchema = mongoose.Schema(
-  {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 3,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      lowercase: true,
-      match: [/\S+@\S+\.\S+/, "is invalid"], // Basic email validation
-    },
-    phone: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      match: [/^\d{10,15}$/, "is invalid"], // Basic phone number validation (10-15 digits)
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
-    // You might add roles here, e.g., 'homeowner', 'admin', 'contractor'
-    role: {
-      type: String,
-      enum: ["user", "admin"], // Example roles
-      default: "user",
-    },
+const bcrypt = require("bcryptjs");
+const userSignSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: [true, "Username is required"],
+    unique: true,
+    trim: true,
+    minlength: 3
   },
-  {
-    timestamps: true, // Adds createdAt and updatedAt fields
-  }
-);
+  email: {
+    type: String,
+    required: [true, "Email is required"],
+    unique: true,
+    trim: true,
+    lowercase: true,
+    match: [/\S+@\S+\.\S+/, "Please enter a valid email"]
+  },
+  phone: {
+    type: String,
+    required: [true, "Phone number is required"],
+    unique: true,
+    trim: true,
+    match: [/^\d{10,15}$/, "Please enter a valid phone number"]
+  },
+  password: {
+    type: String,
+    required: [true, "Password is required"],
+    minlength: 6
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user"
+  },
+  profileImage: String
+}, { timestamps: true });
 
-// Pre-save hook to hash password before saving
-userSignSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) {
+// Add pre-save hook for password hashing
+userSignSchema.pre("save", async function(next) {
+  if (!this.isModified("password")) return next();
+  
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
-  }
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-});
 
-// Method to compare entered password with hashed password in DB
-userSignSchema.methods.matchPassword = async function (enteredPassword) {
+  } catch (err) {
+    next(err);
+  }
+});
+userSignSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+// Create and export the model
 const UserSign = mongoose.model("UserSign", userSignSchema);
-
-module.exports = UserSign;
+module.exports = UserSign;  // Make sure this export is present

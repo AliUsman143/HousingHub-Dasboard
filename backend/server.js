@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 // API routes
 app.use("/api/users", require("./routes/userRoutes"));
-app.use("/api/addprofileusers", require("./routes/addProfileRoutes"));
+// app.use("/api/addprofileusers", require("./routes/addProfileRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api/homeowners", require("./routes/homeowners"));
@@ -30,7 +30,7 @@ app.use("/api/auth", require("./routes/userauth")); // <-- ADD THIS LINE
 app.use("/api/maintenance", require("./routes/maintenance"));
 app.use("/api/appliances", require("./routes/appliances"));
 app.use("/api/packages", require("./routes/packageRoutes"));
-app.use("/api/payment", require("./routes/payment"));
+// app.use("/api/payment", require("./routes/payment"));
 
 connectDB().then(() => {
   app.listen(5000, () =>
