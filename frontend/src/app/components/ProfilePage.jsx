@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useUser } from "../context/UserContext";
 // Import React Icons
 import {
   FaUser,
@@ -18,7 +19,7 @@ import {
 
 export default function ProfilePage() {
   const router = useRouter();
-  const [user, setUser] = useState(null); // Stores the logged-in user's info
+  const { user, updateUser } = useUser();
   const [loading, setLoading] = useState(true); // Manages initial loading state
   const [isSubmitting, setIsSubmitting] = useState(false); // Manages form submission loading state
   const [error, setError] = useState(null); // Stores error messages
@@ -39,34 +40,26 @@ export default function ProfilePage() {
   const fileInputRef = useRef(null); // Ref for the hidden file input
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for sidebar visibility
 
-  // Fetch user info from localStorage on component mount
+  // Initialize form data from user context
   useEffect(() => {
-    const userInfo = localStorage.getItem("userInfo");
-    if (!userInfo) {
+    if (!user) {
       router.push("/signup"); // Redirect if user not logged in
       return;
     }
 
-    try {
-      const parsedUser = JSON.parse(userInfo);
-      setUser(parsedUser);
-      setFormData({
-        username: parsedUser.username || "",
-        email: parsedUser.email || "",
-        phone: parsedUser.phone || "",
-        password: "", // Password is not stored in localStorage for security
-      });
-      if (parsedUser.profileImage) {
-        setPreviewImageUrl(parsedUser.profileImage);
+    setFormData({
+      username: user.username || "",
+      email: user.email || "",
+      phone: user.phone || "",
+      password: "", // Password is not stored for security
+    });
+    
+    if (user.profileImage) {
+        setPreviewImageUrl(`http://localhost:5000${user.profileImage}`);
       }
-    } catch (parseError) {
-      console.error("Error parsing user info from localStorage:", parseError);
-      setError("Failed to load user data. Please log in again.");
-      router.push("/signup");
-    } finally {
-      setLoading(false);
-    }
-  }, [router]);
+    
+    setLoading(false);
+  }, [user, router]);
 
   // Handle changes for text input fields
   const handleInputChange = (e) => {
@@ -145,8 +138,7 @@ export default function ProfilePage() {
       );
 
       if (response.data) {
-        localStorage.setItem("userInfo", JSON.stringify(response.data));
-        setUser(response.data); // Update local user state
+        updateUser(response.data); // Update user context
         setSuccess("Profile updated successfully!");
         setProfileImageFile(null); // Clear file input after successful upload
         // Do not clear password field to allow further changes or re-entry if needed

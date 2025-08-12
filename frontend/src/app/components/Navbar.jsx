@@ -1,30 +1,21 @@
 // Navbar.jsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CiBellOn } from "react-icons/ci";
 import { FaUserCircle } from "react-icons/fa";
+import { useUser } from "../context/UserContext";
 
 const Navbar = () => {
-  const [user, setUser] = useState(null);
+  const { user, logout } = useUser();
   const router = useRouter();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    const userInfo = localStorage.getItem("userInfo");
-    if (userInfo) {
-      setUser(JSON.parse(userInfo));
-    }
-  }, []);
+  const [mounted, setMounted] = useState(true);
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const logoutHandler = () => {
-    localStorage.removeItem("userInfo");
-    localStorage.removeItem("userToken");
-    setUser(null);
+    logout();
     setIsDropdownOpen(false);
     router.push("/signup");
   };
@@ -50,7 +41,7 @@ const Navbar = () => {
                   >
                     {user.profileImage ? (
                       <img
-                        src={user.profileImage}
+                        src={`http://localhost:5000${user.profileImage}`}
                         alt="Profile"
                         className="w-8 h-8 rounded-full object-cover"
                       />
