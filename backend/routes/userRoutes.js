@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User"); // aapke model ka path
+const UserSign = require("../models/usersign");
+const Property = require("../models/property");
 
 // GET all users
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await UserSign.find().populate('properties');
     res.json(users); // ✅ return users to frontend
   } catch (error) {
     res.status(500).json({ error: "Server error while fetching users" });
@@ -15,7 +16,7 @@ router.get("/", async (req, res) => {
 // ✅ GET single user by ID
 router.get("/:id", async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await UserSign.findById(req.params.id).populate('properties');
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -32,18 +33,19 @@ router.get("/:id", async (req, res) => {
 // ✅ POST: Create a new user
 router.post("/", async (req, res) => {
   try {
-    const { name, propertyAddress } = req.body;
+    const { username, email, password } = req.body;
 
     // Validation
-    if (!name || !propertyAddress) {
+    if (!username || !email || !password) {
       return res
         .status(400)
-        .json({ error: "Name and Property Address are required" });
+        .json({ error: "Username, email, and password are required" });
     }
 
-    const newUser = new User({
-      name,
-      propertyAddress,
+    const newUser = new UserSign({
+      username,
+      email,
+      password,
       dateAdded: new Date().toLocaleDateString(), // optional
     });
 
@@ -62,12 +64,12 @@ router.post("/", async (req, res) => {
 
 // PUT: Update a user by ID
 router.put('/:id', async (req, res) => {
-  const { name, propertyAddress } = req.body;
+  const { username, email } = req.body;
 
   try {
-    const user = await User.findByIdAndUpdate(
+    const user = await UserSign.findByIdAndUpdate(
       req.params.id,
-      { name, propertyAddress },
+      { username, email },
       { new: true } // return updated user
     );
 
@@ -88,7 +90,7 @@ router.put('/:id', async (req, res) => {
 // DELETE user by ID
 router.delete('/:id', async (req, res) => {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const deletedUser = await UserSign.findByIdAndDelete(req.params.id);
 
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' });

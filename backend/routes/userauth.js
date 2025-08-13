@@ -113,6 +113,16 @@ router.post('/signup', upload.single('profileImage'), async (req, res) => {
   }
 });
 
+// Get all users
+router.get("/usersign", protect, async (req, res) => {
+  try {
+    const users = await UserSign.find().select("-password"); // password hide karega
+    res.json(users);
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    res.status(500).json({ message: "Server error while fetching users" });
+  }
+});
 
 // @desc    Authenticate user & get token
 // @route   POST /api/auth/login

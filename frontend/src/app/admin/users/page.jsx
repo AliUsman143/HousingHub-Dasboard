@@ -3,7 +3,6 @@ import React, { useEffect, useState, useRef } from "react"; // ✅ include useEf
 import { useRouter } from "next/navigation";
 import Sidebar from "../components/sidebar/Sidebarr";
 
-
 // SVG Icons
 const SearchIcon = ({ className }) => (
   <svg
@@ -56,8 +55,6 @@ const BellIcon = ({ className }) => (
   </svg>
 );
 
-
-
 const UserListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [users, setUsers] = useState([]);
@@ -83,13 +80,40 @@ const UserListPage = () => {
     };
   }, [isSidebarOpen]);
 
-  // Fetch users from API
-  useEffect(() => {
-    const fetchUsers = async () => {
+// userListPage.js
+
+useEffect(() => {
+    const fetchAllUsers = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/users"); // ✅ Full backend URL here
+        const token = localStorage.getItem("userToken");
+        
+       
+
+        if (!token) {
+          console.error("No token found, redirecting to login.");
+          router.push("/login");
+          setIsLoading(false);
+          return;
+        }
+
+        const response = await fetch(
+          "http://localhost:5000/api/auth/usersign",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
         const data = await response.json();
-        setUsers(data);
+        console.log("API response data:", data);
+
+        if (Array.isArray(data)) {
+          setUsers(data);
+        } else {
+          console.error("API response is not an array:", data);
+          setUsers([]);
+        }
       } catch (error) {
         console.error("Error fetching users:", error);
       } finally {
@@ -97,21 +121,27 @@ const UserListPage = () => {
       }
     };
 
-    fetchUsers();
+    fetchAllUsers();
   }, []);
-
   const router = useRouter();
 
   const handleEdit = (userId) => {
-    router.push(`/admin/users/${userId}/edit`);
+    router.push(`/admin/usersign/${userId}/edit`);
   };
 
   const handleDelete = async (id) => {
     if (confirm("Are you sure you want to delete this user?")) {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${id}`, {
-          method: "DELETE",
-        });
+        const token = localStorage.getItem("userToken");
+        const response = await fetch(
+          `http://localhost:5000/api/auth/usersign/${id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           // Remove from UI
@@ -127,13 +157,13 @@ const UserListPage = () => {
     }
   };
   const handleView = (userId) => {
-    window.location.href = `/admin/users/${userId}/view`;
+    router.push(`/admin/usersign/${userId}/view`);
   };
 
   const filteredUsers = users.filter(
     (user) =>
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.propertyAddress.toLowerCase().includes(searchTerm.toLowerCase())
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (isLoading) {
@@ -205,7 +235,6 @@ const UserListPage = () => {
               <BellIcon className="h-5 w-5 sm:h-7 sm:w-7 text-gray-500 hover:text-gray-700" />
               <span className="absolute -top-1 -right-1 bg-red-500 w-2 h-2 sm:w-3 sm:h-3 rounded-full" />
             </div>
-           
           </div>
         </div>
 
@@ -215,7 +244,9 @@ const UserListPage = () => {
             {/* Search and Add User */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
               <button
-                onClick={() => (window.location.href = "/admin/users/create")}
+                onClick={() =>
+                  (window.location.href = "/admin/usersign/create")
+                }
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full sm:w-auto text-center"
               >
                 Add New User
@@ -239,16 +270,22 @@ const UserListPage = () => {
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Name
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Profile
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Property address
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Username
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Date added
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email
                     </th>
-                    <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Phone
+                    </th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Role
+                    </th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
@@ -257,16 +294,44 @@ const UserListPage = () => {
                   {filteredUsers.length > 0 ? (
                     filteredUsers.map((user) => (
                       <tr key={user._id}>
-                        <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                          {user.name}
+                        <td className="px-4 py-2 whitespace-nowrap">
+                          {user.profileImage ? (
+                            <img
+                              src={user.profileImage}
+                              alt="Profile"
+                              className="h-8 w-8 rounded-full object-cover"
+                            />
+                          ) : (
+                            <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
+                              <span className="text-xs text-gray-500">
+                                {user.username.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          )}
                         </td>
-                        <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                          {user.propertyAddress}
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
+                          {user.username}
                         </td>
-                        <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-900">
-                          {user.dateAdded}
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
+                          {user.email}
                         </td>
-                        <td className="px-3 py-3 whitespace-nowrap text-sm font-medium">
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
+                          {user.phone || "N/A"}
+                        </td>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">
+                          <span
+                            className={`px-2 py-1 text-xs rounded-full ${
+                              user.role === "admin"
+                                ? "bg-purple-100 text-purple-800"
+                                : user.role === "realtor"
+                                ? "bg-blue-100 text-blue-800"
+                                : "bg-green-100 text-green-800"
+                            }`}
+                          >
+                            {user.role}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2 whitespace-nowrap text-sm font-medium">
                           <div className="flex space-x-2">
                             {/* View Button */}
                             <button
@@ -323,7 +388,20 @@ const UserListPage = () => {
                               className="text-red-600 hover:text-red-900 p-1 rounded hover:bg-red-50"
                               title="Delete"
                             >
-                              <TrashIcon className="h-4 w-4" />
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                />
+                              </svg>
                             </button>
                           </div>
                         </td>
@@ -332,7 +410,7 @@ const UserListPage = () => {
                   ) : (
                     <tr>
                       <td
-                        colSpan="4"
+                        colSpan="6"
                         className="px-4 py-4 text-center text-sm text-gray-500"
                       >
                         {users.length === 0

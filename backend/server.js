@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 // API routes
-app.use("/api/users", require("./routes/userRoutes"));
+// app.use("/api/users", require("./routes/userRoutes"));
 // app.use("/api/addprofileusers", require("./routes/addProfileRoutes"));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
