@@ -40,7 +40,12 @@ const PropertyPage = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/properties");
+        const token = localStorage.getItem('userToken');
+        const res = await axios.get("http://localhost:5000/api/properties", {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         console.log("wtyrwey", res);
 
         setProperties(res.data);

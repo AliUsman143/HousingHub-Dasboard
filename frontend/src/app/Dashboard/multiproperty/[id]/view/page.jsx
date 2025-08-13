@@ -33,8 +33,14 @@ const Page = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
+        const token = localStorage.getItem('userToken');
         const res = await axios.get(
-          `http://localhost:5000/api/properties/${id}`
+          `http://localhost:5000/api/properties/${id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+            },
+          }
         );
         setProperty(res.data);
         setEditedProperty(res.data); // Initialize editable copy
@@ -61,9 +67,15 @@ const Page = () => {
 
   const handleSave = async () => {
     try {
+      const token = localStorage.getItem('userToken');
       await axios.put(
         `http://localhost:5000/api/properties/${id}`,
-        editedProperty
+        editedProperty,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        }
       );
       setProperty(editedProperty);
       setIsEditing(false);

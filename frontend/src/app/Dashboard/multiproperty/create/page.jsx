@@ -57,8 +57,12 @@ const Page = () => {
     }
 
     try {
+      const token = localStorage.getItem('userToken');
       const response = await fetch("http://localhost:5000/api/properties", {
         method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
         body: formData,
       });
 
