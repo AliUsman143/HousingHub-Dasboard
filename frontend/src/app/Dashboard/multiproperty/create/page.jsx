@@ -130,7 +130,7 @@ const Page = () => {
               </svg>
             </button>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-              Welcome Ali
+              Welcome 
             </h1>
           </div>
 

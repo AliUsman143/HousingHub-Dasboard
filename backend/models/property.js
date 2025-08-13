@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const propertySchema = new mongoose.Schema(
   {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UserSign',
+      required: true
+    },
     colorTheme: {
       type: String,
       required: true,
@@ -11,7 +16,7 @@ const propertySchema = new mongoose.Schema(
       required: true,
     },
     propertyImage: {
-      type: String, // just the filename stored
+      type: String,
       required: false,
     },
     address: {
@@ -41,13 +46,13 @@ const propertySchema = new mongoose.Schema(
     maintenance: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Maintenance", // Reference to the Maintenance model
+        ref: "Maintenance",
         required: false,
       },
     ],
   },
   {
-    timestamps: true, // adds createdAt and updatedAt
+    timestamps: true,
   }
 );
 

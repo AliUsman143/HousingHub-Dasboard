@@ -3,8 +3,8 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 const Property = require("../models/property");
+const protect = require("../middleware/authMiddleware");
 
-// === Multer config ===
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
@@ -16,10 +16,8 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// =======================
-// ✅ POST - Create property
-// =======================
-router.post("/", upload.single("propertyImage"), async (req, res) => {
+// Create property
+router.post("/", protect, upload.single("propertyImage"), async (req, res) => {
   try {
     const {
       colorTheme,
@@ -35,6 +33,7 @@ router.post("/", upload.single("propertyImage"), async (req, res) => {
     const propertyImage = req.file ? req.file.filename : null;
 
     const newProperty = new Property({
+      userId: req.user._id,
       colorTheme,
       propertyName,
       address,
@@ -49,33 +48,34 @@ router.post("/", upload.single("propertyImage"), async (req, res) => {
     await newProperty.save();
 
     res.status(201).json({
-      message: "✅ Property saved successfully",
+      message: "Property saved successfully",
       data: newProperty,
     });
   } catch (error) {
-    console.error("❌ Error saving property:", error.message);
+    console.error("Error saving property:", error.message);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// =======================
-// ✅ GET - All properties
-// =======================
-router.get("/", async (req, res) => {
+// Get user's properties
+router.get("/", protect, async (req, res) => {
   try {
-    const properties = await Property.find().populate('maintenance').sort({ createdAt: -1 });
+    const properties = await Property.find({ userId: req.user._id })
+      .populate('maintenance')
+      .sort({ createdAt: -1 });
     res.status(200).json(properties);
   } catch (error) {
     res.status(500).json({ message: "Error fetching properties" });
   }
 });
 
-// =======================
-// ✅ GET - Single property by ID
-// =======================
-router.get("/:id", async (req, res) => {
+// Get single property
+router.get("/:id", protect, async (req, res) => {
   try {
-    const property = await Property.findById(req.params.id);
+    const property = await Property.findOne({
+      _id: req.params.id,
+      userId: req.user._id
+    });
     if (!property) {
       return res.status(404).json({ message: "Property not found" });
     }
@@ -85,10 +85,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// =======================
-// ✅ PUT - Update property
-// =======================
-router.put("/:id", upload.single("propertyImage"), async (req, res) => {
+// Update property
+router.put("/:id", protect, upload.single("propertyImage"), async (req, res) => {
   try {
     const updates = {
       ...req.body,
@@ -102,8 +100,8 @@ router.put("/:id", upload.single("propertyImage"), async (req, res) => {
       updates.propertyImage = req.file.filename;
     }
 
-    const updatedProperty = await Property.findByIdAndUpdate(
-      req.params.id,
+    const updatedProperty = await Property.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user._id },
       updates,
       { new: true }
     );
@@ -113,7 +111,7 @@ router.put("/:id", upload.single("propertyImage"), async (req, res) => {
     }
 
     res.status(200).json({
-      message: "✅ Property updated successfully",
+      message: "Property updated successfully",
       data: updatedProperty,
     });
   } catch (error) {
@@ -121,16 +119,17 @@ router.put("/:id", upload.single("propertyImage"), async (req, res) => {
   }
 });
 
-// =======================
-// ✅ DELETE - Remove property
-// =======================
-router.delete("/:id", async (req, res) => {
+// Delete property
+router.delete("/:id", protect, async (req, res) => {
   try {
-    const deleted = await Property.findByIdAndDelete(req.params.id);
+    const deleted = await Property.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user._id
+    });
     if (!deleted) {
       return res.status(404).json({ message: "Property not found" });
     }
-    res.status(200).json({ message: "✅ Property deleted successfully" });
+    res.status(200).json({ message: "Property deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: "Error deleting property" });
   }

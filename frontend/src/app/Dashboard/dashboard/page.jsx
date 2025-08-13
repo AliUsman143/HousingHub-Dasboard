@@ -3,20 +3,21 @@ import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import Link from "next/link";
 import StGamerPropertyCard from "../../components/StGamerPropertyCard";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
-const Page = () => {
+export default function DashboardPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [properties, setProperties] = useState([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const [latestProperty, setLatestProperty] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        isSidebarOpen &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target)
-      ) {
+      if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
         setIsSidebarOpen(false);
       }
     };
@@ -24,34 +25,44 @@ const Page = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSidebarOpen]);
 
-  // Fetch the latest property
   useEffect(() => {
-    const fetchLatestProperty = async () => {
+    const checkUserProperties = async () => {
       try {
-        setIsLoading(true);
-        const response = await fetch("http://localhost:5000/api/properties");
-        if (response.ok) {
-          const properties = await response.json();
-          // Get the most recently added property (first in the array since they're sorted by createdAt: -1)
-          if (properties.length > 0) {
-            setLatestProperty(properties[0]);
+        const token = localStorage.getItem('userToken');
+        const response = await axios.get('http://localhost:5000/api/properties', {
+          headers: {
+            'Authorization': `Bearer ${token}`
           }
-        } else {
-          console.error("Failed to fetch properties");
+        });
+
+        if (response.data.length === 0) {
+          router.push('/Firstuser/addproperty');
+          return;
         }
+
+        setProperties(response.data);
+        setLatestProperty(response.data[0]);
       } catch (error) {
-        console.error("Error fetching properties:", error);
+        console.error('Error fetching properties:', error);
+        setError(error.response?.data?.message || 'Failed to fetch properties');
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
-    fetchLatestProperty();
-  }, []);
+    checkUserProperties();
+  }, [router]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar */}
       <div ref={sidebarRef}>
         <Sidebar
           isSidebarOpen={isSidebarOpen}
@@ -59,13 +70,11 @@ const Page = () => {
         />
       </div>
 
-      {/* Main Content */}
       <main
         className={`flex-1 px-4 sm:px-6 py-6 transition-all duration-300 ${
           isSidebarOpen ? "lg:ml-64" : "lg:ml-0"
         }`}
       >
-        {/* Top Navigation */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
           <div className="flex items-center">
             <button
@@ -88,18 +97,20 @@ const Page = () => {
               </svg>
             </button>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-              Welcome Ali
+              Welcome
             </h1>
+            <Link href="/Firstuser/addproperty">
+              <button className="ml-4 px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50">
+                Add Property
+              </button>
+            </Link>
           </div>
-
-         
         </div>
 
-        {/* Latest Property Card Section */}
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-4">Latest Property Added</h2>
           
-          {isLoading ? (
+          {loading ? (
             <div className="flex justify-center items-center h-40 bg-gray-100 rounded-lg">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
             </div>
@@ -114,6 +125,4 @@ const Page = () => {
       </main>
     </div>
   );
-};
-
-export default Page;
+}

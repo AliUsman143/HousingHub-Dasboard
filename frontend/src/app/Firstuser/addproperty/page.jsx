@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 import { HexColorPicker } from "react-colorful";
 import { useRouter } from "next/navigation"; // Keep useRouter for navigation after save
 
@@ -25,6 +26,10 @@ const PropertyForm = () => {
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [submissionError, setSubmissionError] = useState(null);
 
+  // Define setLoading and setError to match their usage in handleSubmit
+  const setLoading = setSubmitting;
+  const setError = setSubmissionError;
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -46,59 +51,40 @@ const PropertyForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission behavior
-    setSubmitting(true);
-    setSubmissionSuccess(false);
-    setSubmissionError(null);
+    e.preventDefault();
+    setLoading(true); // This will now map to setSubmitting(true)
+    setError(null); // This will now map to setSubmissionError(null)
 
     const formData = new FormData();
-    formData.append("colorTheme", colorTheme);
-    formData.append("propertyName", propertyName);
-    formData.append("address", address);
-    formData.append("purchaseDate", purchaseDate);
-    formData.append("purchasePrice", purchasePrice);
-    formData.append("yearBuilt", yearBuilt);
-    formData.append("interestRate", interestRate);
-    formData.append("sizeSqft", sizeSqft);
+    formData.append('colorTheme', colorTheme);
+    formData.append('propertyName', propertyName);
     if (propertyImage) {
-      formData.append("propertyImage", propertyImage);
+      formData.append('propertyImage', propertyImage);
     }
+    formData.append('address', address);
+    formData.append('purchaseDate', purchaseDate);
+    formData.append('purchasePrice', purchasePrice);
+    formData.append('yearBuilt', yearBuilt);
+    formData.append('interestRate', interestRate);
+    formData.append('sizeSqft', sizeSqft);
 
     try {
-      // Ensure your backend is running on http://localhost:5000
-      const response = await fetch("http://localhost:5000/api/properties", {
-        method: "POST",
-        body: formData,
+      const token = localStorage.getItem('userToken');
+      const response = await axios.post('http://localhost:5000/api/properties', formData, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          // 'Content-Type': 'multipart/form-data' is automatically set by browser when using FormData
+        }
       });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        // If response is not OK (e.g., 4xx or 5xx status)
-        throw new Error(result.message || "Failed to add property.");
+      console.log(response.data);
+      if (response.status === 201) {
+        router.push('/Dashboard/dashboard');
       }
-
-      console.log("Property submitted successfully:", result);
-      setSubmissionSuccess(true);
-      // Optionally reset form fields after successful submission
-      setPropertyName("");
-      setPropertyImage(null);
-      setAddress("");
-      setPurchaseDate("");
-      setPurchasePrice("");
-      setYearBuilt("");
-      setInterestRate("");
-      setSizeSqft("");
-      setColorTheme("#007bff"); // Reset to default color
-
-      // Navigate to dashboard after successful submission
-      router.push("/Dashboard/dashboard");
-
-    } catch (err) {
-      console.error("Error submitting property:", err);
-      setSubmissionError(err.message || "Submission failed! Please try again.");
+    } catch (error) {
+      console.error('Error adding property:', error);
+      setError(error.response?.data?.message || 'Failed to add property');
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   };
 

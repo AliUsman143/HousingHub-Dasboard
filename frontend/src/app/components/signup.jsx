@@ -50,6 +50,20 @@ const SignUpPage = () => {
     }
   };
 
+  const checkUserProperties = async (token) => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/properties", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data.length > 0;
+    } catch (error) {
+      console.error("Error checking properties:", error);
+      return false;
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -69,10 +83,17 @@ const SignUpPage = () => {
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Login successful! Redirecting...");
           const userRole = response.data.role;
+          
           if (userRole === 'admin') {
             router.push("/admin/addpackage");
           } else {
-            router.push("/Firstuser/PackagesPagemain");
+            // Check if user has properties
+            const hasProperties = await checkUserProperties(response.data.token);
+            if (hasProperties) {
+              router.push("/Dashboard/dashboard");
+            } else {
+              router.push("/Firstuser/PackagesPagemain");
+            }
           }
         }
       } catch (err) {
