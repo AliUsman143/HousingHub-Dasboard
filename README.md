@@ -13,7 +13,6 @@ househub2/
 │  │  ├─ Package.js
 │  │  ├─ Payment.js
 │  │  ├─ property.js
-│  │  ├─ User.js
 │  │  └─ usersign.js
 │  ├─ routes/
 │  │  ├─ appliances.js
@@ -64,6 +63,15 @@ househub2/
 │  │  ├─ 1754368613644-d5919529fc5a268dd7362830a6b662d7107afc19.jpg
 │  │  ├─ 1754376319495-WhatsApp Image 2025-07-31 at 19.00.17_f0c8d676.jpg
 │  │  ├─ 1754376326585-WhatsApp Image 2025-07-31 at 19.00.17_f0c8d676.jpg
+│  │  ├─ 1754995637543-pexels-thirdman-5257456.jpg
+│  │  ├─ 1754995690939-ali.jpg
+│  │  ├─ 1754997173296-pexels-thirdman-5257456.jpg
+│  │  ├─ 1754999180653-ali.jpg
+│  │  ├─ 1754999541540-WhatsApp Image 2025-07-31 at 19.00.17_f0c8d676.jpg
+│  │  ├─ 1755071131456-pexels-thirdman-5257456 (1).jpg
+│  │  ├─ 1755071289483-pexels-thirdman-5257456 (1).jpg
+│  │  ├─ 1755071632105-pexels-thirdman-5257456 (1).jpg
+│  │  ├─ 1755071636587-pexels-thirdman-5257456 (1).jpg
 │  │  ├─ profilePicture-1751874459329-762753057.jpeg
 │  │  ├─ profilePicture-1751874641326-559474253.jpg
 │  │  └─ profilePicture-1751874729286-376155207.jpg
@@ -178,8 +186,16 @@ househub2/
 │  │  │  │  │  │  │  │  ├─ page.js
 │  │  │  │  │  │  │  │  └─ page.js.nft.json
 │  │  │  │  │  │  │  └─ view/
+│  │  │  │  │  │  │     ├─ page/
+│  │  │  │  │  │  │     │  ├─ app-build-manifest.json
+│  │  │  │  │  │  │     │  ├─ app-paths-manifest.json
+│  │  │  │  │  │  │     │  ├─ build-manifest.json
+│  │  │  │  │  │  │     │  ├─ next-font-manifest.json
+│  │  │  │  │  │  │     │  ├─ react-loadable-manifest.json
+│  │  │  │  │  │  │     │  └─ server-reference-manifest.json
 │  │  │  │  │  │  │     ├─ page_client-reference-manifest.js
 │  │  │  │  │  │  │     ├─ page.js
+│  │  │  │  │  │  │     ├─ page.js.map
 │  │  │  │  │  │  │     └─ page.js.nft.json
 │  │  │  │  │  │  ├─ create/
 │  │  │  │  │  │  │  ├─ page/
@@ -468,6 +484,17 @@ househub2/
 │  │  │  │  │  ├─ next-font-manifest.json
 │  │  │  │  │  ├─ react-loadable-manifest.json
 │  │  │  │  │  └─ server-reference-manifest.json
+│  │  │  │  ├─ profile/
+│  │  │  │  │  ├─ page/
+│  │  │  │  │  │  ├─ app-build-manifest.json
+│  │  │  │  │  │  ├─ app-paths-manifest.json
+│  │  │  │  │  │  ├─ build-manifest.json
+│  │  │  │  │  │  ├─ next-font-manifest.json
+│  │  │  │  │  │  ├─ react-loadable-manifest.json
+│  │  │  │  │  │  └─ server-reference-manifest.json
+│  │  │  │  │  ├─ page_client-reference-manifest.js
+│  │  │  │  │  ├─ page.js
+│  │  │  │  │  └─ page.js.map
 │  │  │  │  ├─ Realtor/
 │  │  │  │  │  ├─ addhomeowner/
 │  │  │  │  │  │  ├─ page_client-reference-manifest.js
@@ -525,6 +552,17 @@ househub2/
 │  │  │  │  │  ├─ page_client-reference-manifest.js
 │  │  │  │  │  ├─ page.js
 │  │  │  │  │  └─ page.js.map
+│  │  │  │  ├─ updateprofilepage/
+│  │  │  │  │  ├─ page/
+│  │  │  │  │  │  ├─ app-build-manifest.json
+│  │  │  │  │  │  ├─ app-paths-manifest.json
+│  │  │  │  │  │  ├─ build-manifest.json
+│  │  │  │  │  │  ├─ next-font-manifest.json
+│  │  │  │  │  │  ├─ react-loadable-manifest.json
+│  │  │  │  │  │  └─ server-reference-manifest.json
+│  │  │  │  │  ├─ page_client-reference-manifest.js
+│  │  │  │  │  ├─ page.js
+│  │  │  │  │  └─ page.js.map
 │  │  │  │  ├─ page_client-reference-manifest.js
 │  │  │  │  ├─ page.js
 │  │  │  │  ├─ page.js.map
@@ -543,6 +581,8 @@ househub2/
 │  │  │  │  │  ├─ _149cfe46._.js.map
 │  │  │  │  │  ├─ _2766182a._.js
 │  │  │  │  │  ├─ _2766182a._.js.map
+│  │  │  │  │  ├─ _284dcc58._.js
+│  │  │  │  │  ├─ _284dcc58._.js.map
 │  │  │  │  │  ├─ _285f344b._.js
 │  │  │  │  │  ├─ _285f344b._.js.map
 │  │  │  │  │  ├─ _327b37a2._.js
@@ -557,6 +597,8 @@ househub2/
 │  │  │  │  │  ├─ _5caf3a85._.js.map
 │  │  │  │  │  ├─ _5f904819._.js
 │  │  │  │  │  ├─ _5f904819._.js.map
+│  │  │  │  │  ├─ _60d2a8f3._.js
+│  │  │  │  │  ├─ _60d2a8f3._.js.map
 │  │  │  │  │  ├─ _62ef51d6._.js
 │  │  │  │  │  ├─ _62ef51d6._.js.map
 │  │  │  │  │  ├─ _67a59e5b._.js
@@ -569,12 +611,18 @@ househub2/
 │  │  │  │  │  ├─ _7e96aecc._.js.map
 │  │  │  │  │  ├─ _7f587881._.js
 │  │  │  │  │  ├─ _7f587881._.js.map
+│  │  │  │  │  ├─ _821e1ba6._.js
+│  │  │  │  │  ├─ _821e1ba6._.js.map
+│  │  │  │  │  ├─ _927cb5e4._.js
+│  │  │  │  │  ├─ _927cb5e4._.js.map
 │  │  │  │  │  ├─ _958dc70b._.js
 │  │  │  │  │  ├─ _958dc70b._.js.map
 │  │  │  │  │  ├─ _9653705a._.js
 │  │  │  │  │  ├─ _9653705a._.js.map
 │  │  │  │  │  ├─ _978b468d._.js
 │  │  │  │  │  ├─ _978b468d._.js.map
+│  │  │  │  │  ├─ _a1671f08._.js
+│  │  │  │  │  ├─ _a1671f08._.js.map
 │  │  │  │  │  ├─ _a6df066e._.js
 │  │  │  │  │  ├─ _a6df066e._.js.map
 │  │  │  │  │  ├─ _a8e9e9a0._.js
@@ -615,6 +663,8 @@ househub2/
 │  │  │  │  │  ├─ _faddefda._.js.map
 │  │  │  │  │  ├─ _fcc2bbd2._.js
 │  │  │  │  │  ├─ _fcc2bbd2._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__05ce32d7._.js
+│  │  │  │  │  ├─ [root-of-the-server]__05ce32d7._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__05fee1c9._.js
 │  │  │  │  │  ├─ [root-of-the-server]__05fee1c9._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__07b48ff9._.js
@@ -631,6 +681,8 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__16ea7f20._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__1aae021b._.js
 │  │  │  │  │  ├─ [root-of-the-server]__1aae021b._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__1c80b74c._.js
+│  │  │  │  │  ├─ [root-of-the-server]__1c80b74c._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__1f3d5396._.js
 │  │  │  │  │  ├─ [root-of-the-server]__1f3d5396._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__2574fa05._.js
@@ -639,6 +691,8 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__2b1d84c6._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__380f5e6d._.js
 │  │  │  │  │  ├─ [root-of-the-server]__380f5e6d._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__394a44cb._.js
+│  │  │  │  │  ├─ [root-of-the-server]__394a44cb._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__41f15077._.js
 │  │  │  │  │  ├─ [root-of-the-server]__41f15077._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__41fefd8f._.js
@@ -663,6 +717,8 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__6634c316._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__6903b6a8._.js
 │  │  │  │  │  ├─ [root-of-the-server]__6903b6a8._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__697433a2._.js
+│  │  │  │  │  ├─ [root-of-the-server]__697433a2._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__6d38ec46._.js
 │  │  │  │  │  ├─ [root-of-the-server]__6d38ec46._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__734ee848._.js
@@ -671,8 +727,12 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__73ef215f._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__7490cfe3._.js
 │  │  │  │  │  ├─ [root-of-the-server]__7490cfe3._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__7a0157cf._.js
+│  │  │  │  │  ├─ [root-of-the-server]__7a0157cf._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__7bab20f6._.js
 │  │  │  │  │  ├─ [root-of-the-server]__7bab20f6._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__7ccf8499._.js
+│  │  │  │  │  ├─ [root-of-the-server]__7ccf8499._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__7f49b5e8._.js
 │  │  │  │  │  ├─ [root-of-the-server]__7f49b5e8._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__811098b7._.js
@@ -685,6 +745,8 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__87832df8._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__88f542dc._.js
 │  │  │  │  │  ├─ [root-of-the-server]__88f542dc._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__8df97a49._.js
+│  │  │  │  │  ├─ [root-of-the-server]__8df97a49._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__92536f72._.js
 │  │  │  │  │  ├─ [root-of-the-server]__92536f72._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__9300d979._.js
@@ -709,6 +771,8 @@ househub2/
 │  │  │  │  │  ├─ [root-of-the-server]__bb68b9d5._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__bd52e9c7._.js
 │  │  │  │  │  ├─ [root-of-the-server]__bd52e9c7._.js.map
+│  │  │  │  │  ├─ [root-of-the-server]__c10883e2._.js
+│  │  │  │  │  ├─ [root-of-the-server]__c10883e2._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__c75c51b7._.js
 │  │  │  │  │  ├─ [root-of-the-server]__c75c51b7._.js.map
 │  │  │  │  │  ├─ [root-of-the-server]__c90125cb._.js
@@ -797,6 +861,8 @@ househub2/
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_6b58a935._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_79a3613c._.js
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_79a3613c._.js.map
+│  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_863c5df1._.js
+│  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_863c5df1._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_882d36d6._.js
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_882d36d6._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_8d88bf2a._.js
@@ -815,6 +881,8 @@ househub2/
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_b298aa2c._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_cfc4e5fa._.js
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_cfc4e5fa._.js.map
+│  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_d63b84a6._.js
+│  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_d63b84a6._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_dddde7a7._.js
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_dddde7a7._.js.map
 │  │  │  │  │  ├─ [turbopack]_browser_dev_hmr-client_hmr-client_ts_e146f65a._.js
@@ -867,6 +935,8 @@ househub2/
 │  │  │  │  │  ├─ node_modules_ad3e0e0e._.js.map
 │  │  │  │  │  ├─ node_modules_axios_lib_d4057d3d._.js
 │  │  │  │  │  ├─ node_modules_axios_lib_d4057d3d._.js.map
+│  │  │  │  │  ├─ node_modules_bd9be525._.js
+│  │  │  │  │  ├─ node_modules_bd9be525._.js.map
 │  │  │  │  │  ├─ node_modules_bf671b14._.js
 │  │  │  │  │  ├─ node_modules_bf671b14._.js.map
 │  │  │  │  │  ├─ node_modules_ca37550c._.js
@@ -911,6 +981,8 @@ househub2/
 │  │  │  │  │  ├─ node_modules_next_dist_client_components_unauthorized-error_c8949b27.js.map
 │  │  │  │  │  ├─ node_modules_next_dist_server_route-modules_app-page_e365f43b._.js
 │  │  │  │  │  ├─ node_modules_next_dist_server_route-modules_app-page_e365f43b._.js.map
+│  │  │  │  │  ├─ node_modules_react-colorful_dist_index_mjs_c49c47c6._.js
+│  │  │  │  │  ├─ node_modules_react-colorful_dist_index_mjs_c49c47c6._.js.map
 │  │  │  │  │  ├─ node_modules_react-icons_9cc704d4._.js
 │  │  │  │  │  ├─ node_modules_react-icons_9cc704d4._.js.map
 │  │  │  │  │  ├─ node_modules_react-icons_ci_index_mjs_a68457f2._.js
@@ -939,6 +1011,8 @@ househub2/
 │  │  │  │  │  ├─ src_app_admin_05170d35._.js.map
 │  │  │  │  │  ├─ src_app_admin_26b6baf6._.js
 │  │  │  │  │  ├─ src_app_admin_26b6baf6._.js.map
+│  │  │  │  │  ├─ src_app_admin_3362ddd8._.js
+│  │  │  │  │  ├─ src_app_admin_3362ddd8._.js.map
 │  │  │  │  │  ├─ src_app_admin_bd64ba48._.js
 │  │  │  │  │  ├─ src_app_admin_bd64ba48._.js.map
 │  │  │  │  │  ├─ src_app_admin_layout_jsx_35024b63._.js
@@ -947,6 +1021,8 @@ househub2/
 │  │  │  │  │  ├─ src_app_admin_layout_jsx_e96918fb._.js.map
 │  │  │  │  │  ├─ src_app_admin_page_tsx_80bdc4da._.js
 │  │  │  │  │  ├─ src_app_admin_page_tsx_80bdc4da._.js.map
+│  │  │  │  │  ├─ src_app_Dashboard_118d0aab._.js
+│  │  │  │  │  ├─ src_app_Dashboard_118d0aab._.js.map
 │  │  │  │  │  ├─ src_app_Dashboard_4c64c88f._.js
 │  │  │  │  │  ├─ src_app_Dashboard_4c64c88f._.js.map
 │  │  │  │  │  ├─ src_app_Dashboard_4d1cdae7._.js
@@ -959,6 +1035,8 @@ househub2/
 │  │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_388aa018._.js.map
 │  │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_tsx_8bc200f8._.js
 │  │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_tsx_8bc200f8._.js.map
+│  │  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_dc4868bc._.js
+│  │  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_dc4868bc._.js.map
 │  │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_9408d458._.js
 │  │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_9408d458._.js.map
 │  │  │  │  │  ├─ src_app_page_tsx_25a22f1e._.js
@@ -970,7 +1048,9 @@ househub2/
 │  │  │  │  │  ├─ src_app_Realtor_layout_jsx_4d2cc878._.js
 │  │  │  │  │  ├─ src_app_Realtor_layout_jsx_4d2cc878._.js.map
 │  │  │  │  │  ├─ src_app_Realtor_layout_jsx_ba3524ff._.js
-│  │  │  │  │  └─ src_app_Realtor_layout_jsx_ba3524ff._.js.map
+│  │  │  │  │  ├─ src_app_Realtor_layout_jsx_ba3524ff._.js.map
+│  │  │  │  │  ├─ src_app_updateprofilepage_page_jsx_71d9f18a._.js
+│  │  │  │  │  └─ src_app_updateprofilepage_page_jsx_71d9f18a._.js.map
 │  │  │  │  ├─ [root-of-the-server]__0496ac32._.js
 │  │  │  │  ├─ [root-of-the-server]__0496ac32._.js.map
 │  │  │  │  ├─ [root-of-the-server]__450a0190._.js
@@ -1127,6 +1207,8 @@ househub2/
 │  │  │  │  ├─ _cd8f2172._.js.map
 │  │  │  │  ├─ _d330542f._.js
 │  │  │  │  ├─ _d330542f._.js.map
+│  │  │  │  ├─ _dc3cbc1f._.js
+│  │  │  │  ├─ _dc3cbc1f._.js.map
 │  │  │  │  ├─ _e69f0d32._.js
 │  │  │  │  ├─ _e9182e81._.js
 │  │  │  │  ├─ _e9182e81._.js.map
@@ -1185,6 +1267,8 @@ househub2/
 │  │  │  │  ├─ node_modules_5dba378b._.js.map
 │  │  │  │  ├─ node_modules_6a262635._.js
 │  │  │  │  ├─ node_modules_6a262635._.js.map
+│  │  │  │  ├─ node_modules_8f355991._.js
+│  │  │  │  ├─ node_modules_8f355991._.js.map
 │  │  │  │  ├─ node_modules_918cd437._.js
 │  │  │  │  ├─ node_modules_918cd437._.js.map
 │  │  │  │  ├─ node_modules_a0821fc8._.js
@@ -1209,6 +1293,8 @@ househub2/
 │  │  │  │  ├─ node_modules_next_141cf534._.js.map
 │  │  │  │  ├─ node_modules_next_26403d2c._.js
 │  │  │  │  ├─ node_modules_next_26403d2c._.js.map
+│  │  │  │  ├─ node_modules_next_573a9b57._.js
+│  │  │  │  ├─ node_modules_next_573a9b57._.js.map
 │  │  │  │  ├─ node_modules_next_94874904._.js
 │  │  │  │  ├─ node_modules_next_94874904._.js.map
 │  │  │  │  ├─ node_modules_next_a87d4167._.js
@@ -1232,6 +1318,8 @@ househub2/
 │  │  │  │  ├─ node_modules_next_dist_compiled_react_26ec58f1._.js.map
 │  │  │  │  ├─ node_modules_next_e679650e._.js
 │  │  │  │  ├─ node_modules_next_e679650e._.js.map
+│  │  │  │  ├─ node_modules_react-colorful_dist_index_mjs_783cf9e5._.js
+│  │  │  │  ├─ node_modules_react-colorful_dist_index_mjs_783cf9e5._.js.map
 │  │  │  │  ├─ node_modules_react-dom_82bb97c6._.js
 │  │  │  │  ├─ node_modules_react-dom_82bb97c6._.js.map
 │  │  │  │  ├─ node_modules_react-icons_ci_index_mjs_e4544c82._.js
@@ -1263,6 +1351,8 @@ househub2/
 │  │  │  │  ├─ src_app_a3e2b71d._.js.map
 │  │  │  │  ├─ src_app_a65b1f21._.js
 │  │  │  │  ├─ src_app_a65b1f21._.js.map
+│  │  │  │  ├─ src_app_ad7c80f4._.js
+│  │  │  │  ├─ src_app_ad7c80f4._.js.map
 │  │  │  │  ├─ src_app_admin_1365a20e._.js
 │  │  │  │  ├─ src_app_admin_1365a20e._.js.map
 │  │  │  │  ├─ src_app_admin_365e78fc._.js
@@ -1270,13 +1360,17 @@ househub2/
 │  │  │  │  ├─ src_app_admin_4fef93d8._.js
 │  │  │  │  ├─ src_app_admin_4fef93d8._.js.map
 │  │  │  │  ├─ src_app_admin_addpackage_page_jsx_03f60be0._.js
+│  │  │  │  ├─ src_app_admin_addpackage_page_jsx_167dad98._.js
 │  │  │  │  ├─ src_app_admin_addpackage_page_jsx_2e597fee._.js
+│  │  │  │  ├─ src_app_admin_addpackage_page_jsx_453506c2._.js
 │  │  │  │  ├─ src_app_admin_addpackage_page_jsx_457b5e1b._.js
 │  │  │  │  ├─ src_app_admin_addpackage_page_jsx_6547136d._.js
 │  │  │  │  ├─ src_app_admin_cf4f932a._.js
 │  │  │  │  ├─ src_app_admin_cf4f932a._.js.map
 │  │  │  │  ├─ src_app_admin_dc738e3e._.js
 │  │  │  │  ├─ src_app_admin_dc738e3e._.js.map
+│  │  │  │  ├─ src_app_admin_deda1db7._.js
+│  │  │  │  ├─ src_app_admin_deda1db7._.js.map
 │  │  │  │  ├─ src_app_admin_f62d4d01._.js
 │  │  │  │  ├─ src_app_admin_f62d4d01._.js.map
 │  │  │  │  ├─ src_app_admin_f7f4c82e._.js
@@ -1284,6 +1378,8 @@ househub2/
 │  │  │  │  ├─ src_app_admin_layout_jsx_4511182e._.js
 │  │  │  │  ├─ src_app_admin_layout_jsx_6a5f8bb7._.js
 │  │  │  │  ├─ src_app_admin_layout_jsx_6a5f8bb7._.js.map
+│  │  │  │  ├─ src_app_admin_layout_jsx_7350b16a._.js
+│  │  │  │  ├─ src_app_admin_layout_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_admin_layout_jsx_ce3b6d51._.js
 │  │  │  │  ├─ src_app_admin_layout_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_admin_layout_jsx_e0429ccd._.js
@@ -1291,15 +1387,18 @@ househub2/
 │  │  │  │  ├─ src_app_admin_package_page_jsx_457b5e1b._.js
 │  │  │  │  ├─ src_app_admin_package_page_jsx_4fe9bfca._.js
 │  │  │  │  ├─ src_app_admin_package_page_jsx_6547136d._.js
+│  │  │  │  ├─ src_app_admin_page_tsx_453506c2._.js
 │  │  │  │  ├─ src_app_admin_page_tsx_457b5e1b._.js
 │  │  │  │  ├─ src_app_admin_page_tsx_86a53bab._.js
 │  │  │  │  ├─ src_app_admin_page_tsx_86a53bab._.js.map
 │  │  │  │  ├─ src_app_admin_profilepage_page_jsx_03f60be0._.js
 │  │  │  │  ├─ src_app_admin_profilepage_page_jsx_e7edfeeb._.js
 │  │  │  │  ├─ src_app_admin_profilepage_page_jsx_e7edfeeb._.js.map
+│  │  │  │  ├─ src_app_admin_users_[id]_view_page_jsx_453506c2._.js
 │  │  │  │  ├─ src_app_admin_users_create_page_jsx_03f60be0._.js
 │  │  │  │  ├─ src_app_admin_users_page_jsx_03f60be0._.js
 │  │  │  │  ├─ src_app_admin_users_page_jsx_2e597fee._.js
+│  │  │  │  ├─ src_app_admin_users_page_jsx_453506c2._.js
 │  │  │  │  ├─ src_app_admin_users_page_jsx_6547136d._.js
 │  │  │  │  ├─ src_app_components_04d0245e._.js
 │  │  │  │  ├─ src_app_components_04d0245e._.js.map
@@ -1315,6 +1414,8 @@ househub2/
 │  │  │  │  ├─ src_app_components_packages_jsx_fbcc7d36._.js.map
 │  │  │  │  ├─ src_app_components_PaymentPage_jsx_9cf45e7e._.js
 │  │  │  │  ├─ src_app_components_PaymentPage_jsx_9cf45e7e._.js.map
+│  │  │  │  ├─ src_app_components_ProfilePage_jsx_a7919890._.js
+│  │  │  │  ├─ src_app_components_ProfilePage_jsx_a7919890._.js.map
 │  │  │  │  ├─ src_app_components_signup_jsx_3b976b73._.js
 │  │  │  │  ├─ src_app_components_signup_jsx_3b976b73._.js.map
 │  │  │  │  ├─ src_app_Dashboard_003e7277._.js
@@ -1323,6 +1424,8 @@ househub2/
 │  │  │  │  ├─ src_app_Dashboard_07860231._.js.map
 │  │  │  │  ├─ src_app_Dashboard_0a58b561._.js
 │  │  │  │  ├─ src_app_Dashboard_0a58b561._.js.map
+│  │  │  │  ├─ src_app_Dashboard_5a567dfe._.js
+│  │  │  │  ├─ src_app_Dashboard_5a567dfe._.js.map
 │  │  │  │  ├─ src_app_Dashboard_5c88bff2._.js
 │  │  │  │  ├─ src_app_Dashboard_5c88bff2._.js.map
 │  │  │  │  ├─ src_app_Dashboard_68ff987c._.js
@@ -1337,6 +1440,7 @@ househub2/
 │  │  │  │  ├─ src_app_Dashboard_applianceManagement_create_page_jsx_67c8288d._.js
 │  │  │  │  ├─ src_app_Dashboard_applianceManagement_page_jsx_1aa3e44b._.js
 │  │  │  │  ├─ src_app_Dashboard_applianceManagement_page_jsx_67c8288d._.js
+│  │  │  │  ├─ src_app_Dashboard_applianceManagement_page_jsx_b840a12e._.js
 │  │  │  │  ├─ src_app_Dashboard_b3d5b597._.js
 │  │  │  │  ├─ src_app_Dashboard_b3d5b597._.js.map
 │  │  │  │  ├─ src_app_Dashboard_c9a7db22._.js
@@ -1352,7 +1456,10 @@ househub2/
 │  │  │  │  ├─ src_app_Dashboard_d89a9809._.js.map
 │  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_1aa3e44b._.js
 │  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_288ed4e7._.js
+│  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_2aac4e1a._.js
+│  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_2aac4e1a._.js.map
 │  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_67c8288d._.js
+│  │  │  │  ├─ src_app_Dashboard_dashboard_page_jsx_b840a12e._.js
 │  │  │  │  ├─ src_app_Dashboard_e270bf77._.js
 │  │  │  │  ├─ src_app_Dashboard_e270bf77._.js.map
 │  │  │  │  ├─ src_app_Dashboard_edaa8d1e._.js
@@ -1363,21 +1470,32 @@ househub2/
 │  │  │  │  ├─ src_app_Dashboard_homeSystemManagement_page_jsx_1aa3e44b._.js
 │  │  │  │  ├─ src_app_Dashboard_homeSystemManagement_page_jsx_67c8288d._.js
 │  │  │  │  ├─ src_app_Dashboard_layout_jsx_4511182e._.js
+│  │  │  │  ├─ src_app_Dashboard_layout_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Dashboard_layout_jsx_bd724cd3._.js
 │  │  │  │  ├─ src_app_Dashboard_layout_jsx_bd724cd3._.js.map
 │  │  │  │  ├─ src_app_Dashboard_layout_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_Dashboard_layout_jsx_e0429ccd._.js
 │  │  │  │  ├─ src_app_Dashboard_maintenanceScheduling_page_jsx_1aa3e44b._.js
 │  │  │  │  ├─ src_app_Dashboard_multiproperty_[id]_view_page_jsx_67c8288d._.js
+│  │  │  │  ├─ src_app_Dashboard_multiproperty_[id]_view_page_jsx_b840a12e._.js
 │  │  │  │  ├─ src_app_Dashboard_multiproperty_create_page_jsx_67c8288d._.js
+│  │  │  │  ├─ src_app_Dashboard_multiproperty_create_page_jsx_b840a12e._.js
 │  │  │  │  ├─ src_app_Dashboard_multiproperty_page_jsx_1aa3e44b._.js
 │  │  │  │  ├─ src_app_Dashboard_multiproperty_page_jsx_288ed4e7._.js
 │  │  │  │  ├─ src_app_Dashboard_multiproperty_page_jsx_67c8288d._.js
+│  │  │  │  ├─ src_app_Dashboard_multiproperty_page_jsx_b840a12e._.js
 │  │  │  │  ├─ src_app_ec0255ff._.js
 │  │  │  │  ├─ src_app_ec0255ff._.js.map
 │  │  │  │  ├─ src_app_favicon_ico_mjs_756fb309._.js
+│  │  │  │  ├─ src_app_Firstuser_5efc1900._.js
+│  │  │  │  ├─ src_app_Firstuser_5efc1900._.js.map
+│  │  │  │  ├─ src_app_Firstuser_addproperty_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Firstuser_addproperty_page_jsx_cf4a38cf._.js
+│  │  │  │  ├─ src_app_Firstuser_addproperty_page_jsx_e3d2ebf5._.js
+│  │  │  │  ├─ src_app_Firstuser_addproperty_page_jsx_e3d2ebf5._.js.map
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_4511182e._.js
+│  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_7350b16a._.js
+│  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_e0429ccd._.js
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_jsx_f9d36213._.js
@@ -1385,10 +1503,15 @@ househub2/
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_tsx_0226b030._.js
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_tsx_0226b030._.js.map
 │  │  │  │  ├─ src_app_Firstuser_PackagesPagemain_page_tsx_4511182e._.js
+│  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_cf4a38cf._.js
+│  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_ff6fdc67._.js
+│  │  │  │  ├─ src_app_Firstuser_payment-cancel_page_jsx_ff6fdc67._.js.map
+│  │  │  │  ├─ src_app_Firstuser_payment-success_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Firstuser_payment-success_page_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_02aaf0a7._.js
 │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_02aaf0a7._.js.map
+│  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_Firstuser_PaymentPage_page_jsx_e0429ccd._.js
 │  │  │  │  ├─ src_app_globals_css_f9ee138c._.single.css
@@ -1399,11 +1522,15 @@ househub2/
 │  │  │  │  ├─ src_app_PackagesPagemain_page_jsx_8e3ef293._.js.map
 │  │  │  │  ├─ src_app_PackagesPagemain_page_jsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_page_tsx_4511182e._.js
+│  │  │  │  ├─ src_app_page_tsx_7350b16a._.js
 │  │  │  │  ├─ src_app_page_tsx_b025fed5._.js
 │  │  │  │  ├─ src_app_page_tsx_b025fed5._.js.map
+│  │  │  │  ├─ src_app_page_tsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_page_tsx_ce3b6d51._.js
 │  │  │  │  ├─ src_app_page_tsx_cf4a38cf._.js
 │  │  │  │  ├─ src_app_page_tsx_e0429ccd._.js
+│  │  │  │  ├─ src_app_profile_page_jsx_7350b16a._.js
+│  │  │  │  ├─ src_app_profile_page_jsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_Realtor_2d117592._.js
 │  │  │  │  ├─ src_app_Realtor_2d117592._.js.map
 │  │  │  │  ├─ src_app_Realtor_bef0d754._.js
@@ -1418,7 +1545,12 @@ househub2/
 │  │  │  │  ├─ src_app_Realtor_layout_jsx_e0429ccd._.js
 │  │  │  │  ├─ src_app_Realtor_profilepage_page_jsx_80b8a261._.js
 │  │  │  │  ├─ src_app_signup_page_tsx_4511182e._.js
+│  │  │  │  ├─ src_app_signup_page_tsx_7350b16a._.js
+│  │  │  │  ├─ src_app_signup_page_tsx_b4963e1d._.js
 │  │  │  │  ├─ src_app_signup_page_tsx_e0429ccd._.js
+│  │  │  │  ├─ src_app_updateprofilepage_page_jsx_7152e365._.js
+│  │  │  │  ├─ src_app_updateprofilepage_page_jsx_7152e365._.js.map
+│  │  │  │  ├─ src_app_updateprofilepage_page_jsx_7350b16a._.js
 │  │  │  │  └─ webpack-70674f3fa8d2265b.js
 │  │  │  ├─ css/
 │  │  │  │  └─ 89e8715932d59192.css
@@ -1544,7 +1676,6 @@ househub2/
 │  │  │  │  ├─ package/
 │  │  │  │  │  └─ page.jsx
 │  │  │  │  ├─ profilepage/
-│  │  │  │  │  └─ page.jsx
 │  │  │  │  ├─ users/
 │  │  │  │  │  ├─ [id]/
 │  │  │  │  │  │  ├─ edit/
@@ -1557,6 +1688,8 @@ househub2/
 │  │  │  │  ├─ layout.jsx
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ api/
+│  │  │  │  ├─ assign-package/
+│  │  │  │  │  └─ route.js
 │  │  │  │  ├─ checkout/
 │  │  │  │  │  └─ route.js
 │  │  │  │  └─ stripe-webhook/
@@ -1565,11 +1698,13 @@ househub2/
 │  │  │  │  ├─ AddPropertyPage.jsx
 │  │  │  │  ├─ loader.jsx
 │  │  │  │  ├─ Navbar.jsx
-│  │  │  │  ├─ profilepage.jsx
+│  │  │  │  ├─ ProfilePage.jsx
 │  │  │  │  ├─ PropertyCard.jsx
 │  │  │  │  ├─ PropertyFormPopup.js
 │  │  │  │  ├─ signup.jsx
 │  │  │  │  └─ StGamerPropertyCard.jsx
+│  │  │  ├─ context/
+│  │  │  │  └─ UserContext.jsx
 │  │  │  ├─ Dashboard/
 │  │  │  │  ├─ applianceManagement/
 │  │  │  │  │  ├─ [id]/
@@ -1618,6 +1753,8 @@ househub2/
 │  │  │  │  │  └─ page.jsx
 │  │  │  │  └─ PaymentPage/
 │  │  │  │     └─ page.jsx
+│  │  │  ├─ profile/
+│  │  │  │  └─ page.jsx
 │  │  │  ├─ signup/
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ favicon.ico

@@ -31,7 +31,7 @@ app.use("/api/maintenance", require("./routes/maintenance"));
 app.use("/api/appliances", require("./routes/appliances"));
 app.use("/api/packages", require("./routes/packageRoutes"));
 // app.use("/api/payment", require("./routes/payment"));
-
+// app.use('/api/payments', require('./routes/payment'));
 connectDB().then(() => {
   app.listen(5000, () =>
     console.log("🚀 Server running on http://localhost:5000")
