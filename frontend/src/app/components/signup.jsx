@@ -42,13 +42,13 @@ const SignUpPage = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImage(file);
-      setPreviewImage(URL.createObjectURL(file));
-    }
-  };
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setProfileImage(file);
+  //     setPreviewImage(URL.createObjectURL(file));
+  //   }
+  // };
 
   const checkUserProperties = async (token) => {
     try {
@@ -73,22 +73,27 @@ const SignUpPage = () => {
     if (isExistingUser) {
       // Handle Login
       try {
-        const response = await axios.post("http://localhost:5000/api/auth/login", {
-          username: loginUsername,
-          password: loginPassword,
-        });
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/login",
+          {
+            username: loginUsername,
+            password: loginPassword,
+          }
+        );
 
         if (response.data.token) {
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Login successful! Redirecting...");
           const userRole = response.data.role;
-          
-          if (userRole === 'admin') {
+
+          if (userRole === "admin") {
             router.push("/admin/addpackage");
           } else {
             // Check if user has properties
-            const hasProperties = await checkUserProperties(response.data.token);
+            const hasProperties = await checkUserProperties(
+              response.data.token
+            );
             if (hasProperties) {
               router.push("/Dashboard/dashboard");
             } else {
@@ -97,7 +102,10 @@ const SignUpPage = () => {
           }
         }
       } catch (err) {
-        setError(err.response?.data?.message || "Login failed. Please check your credentials.");
+        setError(
+          err.response?.data?.message ||
+            "Login failed. Please check your credentials."
+        );
         console.error("Login error:", err);
       } finally {
         setLoading(false);
@@ -121,25 +129,32 @@ const SignUpPage = () => {
           formData.append("profileImage", profileImage);
         }
 
-        const response = await axios.post("http://localhost:5000/api/auth/signup", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.post(
+          "http://localhost:5000/api/auth/signup",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
         if (response.data.token) {
           localStorage.setItem("userToken", response.data.token);
           localStorage.setItem("userInfo", JSON.stringify(response.data));
           setSuccess("Registration successful! Redirecting...");
           const userRole = response.data.role;
-          if (userRole === 'admin') {
+          if (userRole === "admin") {
             router.push("/admin/addpackage");
           } else {
             router.push("/Firstuser/PackagesPagemain");
           }
         }
       } catch (err) {
-        setError(err.response?.data?.message || "Registration failed. Please try again.");
+        setError(
+          err.response?.data?.message ||
+            "Registration failed. Please try again."
+        );
         console.error("Signup error:", err);
       } finally {
         setLoading(false);
@@ -152,23 +167,27 @@ const SignUpPage = () => {
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
         <div className="text-center mb-3">
           <h1 className="text-4xl font-bold text-blue-800 mb-2">
-            {isExistingUser ? "Sign In" : "Sign Up"}
+            {isExistingUser ? "Log In" : "Sign Up"}
           </h1>
           <p className="text-gray-600">
-            {isExistingUser
-              ? "Welcome back to your account"
-              : "to get started"}
+            {isExistingUser ? "Welcome back to your account" : "to get started"}
           </p>
         </div>
 
         {/* Success and Error Messages */}
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <div
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
             <span className="block sm:inline">{error}</span>
           </div>
         )}
         {success && (
-          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <div
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+            role="alert"
+          >
             <span className="block sm:inline">{success}</span>
           </div>
         )}
@@ -184,13 +203,11 @@ const SignUpPage = () => {
           >
             {isExistingUser
               ? "Don't have an account? Sign Up"
-              : "Already have an account? Sign In"}
+              : "Already have an account? Log In"}
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-        
-
           {isExistingUser ? (
             <>
               {/* Login Form */}
@@ -234,7 +251,10 @@ const SignUpPage = () => {
               </div>
 
               <div className="text-right">
-                <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-800">
+                <Link
+                  href="#"
+                  className="text-sm text-blue-600 hover:text-blue-800"
+                >
                   Forgot Password?
                 </Link>
               </div>
@@ -331,7 +351,9 @@ const SignUpPage = () => {
                     />
                     <button
                       type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
                     >
                       {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
@@ -347,7 +369,13 @@ const SignUpPage = () => {
             className="w-full bg-orange-500 text-white py-3 rounded-md font-semibold text-lg shadow-md hover:bg-orange-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             disabled={loading}
           >
-            {loading ? (isExistingUser ? "Signing In..." : "Registering...") : (isExistingUser ? "Sign In" : "Register Now")}
+            {loading
+              ? isExistingUser
+                ? "Signing In..."
+                : "Registering..."
+              : isExistingUser
+              ? "Sign In"
+              : "Register Now"}
           </button>
         </form>
       </div>

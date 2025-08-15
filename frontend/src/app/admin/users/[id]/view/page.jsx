@@ -14,7 +14,17 @@ export default function ViewUserPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/users/${id}`);
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+          console.error("No token found, redirecting to login.");
+          router.push("/login");
+          return;
+        }
+        const res = await fetch(`http://localhost:5000/api/users/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await res.json();
         if (res.ok) {
           setUser(data);
@@ -54,13 +64,36 @@ export default function ViewUserPage() {
           <h1 className="text-2xl font-bold text-gray-800 mb-6">User Details</h1>
 
           <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm space-y-4">
-            <div>
-              <h2 className="text-sm text-gray-500">Name</h2>
-              <p className="text-lg text-gray-900">{user.name}</p>
+            <div className="mb-4 text-center">
+              {user.profileImage ? (
+                <img
+                  src={`http://localhost:5000${user.profileImage}`}
+                  alt="Profile"
+                  className="w-24 h-24 rounded-full object-cover mx-auto border-2 border-gray-300"
+                />
+              ) : (
+                <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center mx-auto border-2 border-gray-300">
+                  <span className="text-4xl text-gray-500">
+                    {user.username.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              )}
             </div>
             <div>
-              <h2 className="text-sm text-gray-500">Property Address</h2>
-              <p className="text-lg text-gray-900">{user.propertyAddress}</p>
+              <h2 className="text-sm text-gray-500">Username</h2>
+              <p className="text-lg text-gray-900">{user.username}</p>
+            </div>
+            <div>
+              <h2 className="text-sm text-gray-500">Email</h2>
+              <p className="text-lg text-gray-900">{user.email}</p>
+            </div>
+            <div>
+              <h2 className="text-sm text-gray-500">Phone</h2>
+              <p className="text-lg text-gray-900">{user.phone}</p>
+            </div>
+            <div>
+              <h2 className="text-sm text-gray-500">Role</h2>
+              <p className="text-lg text-gray-900">{user.role}</p>
             </div>
           </div>
 

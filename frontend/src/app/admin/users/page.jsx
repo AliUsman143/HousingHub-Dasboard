@@ -157,7 +157,7 @@ useEffect(() => {
     }
   };
   const handleView = (userId) => {
-    router.push(`/admin/usersign/${userId}/view`);
+    router.push(`/admin/users/${userId}/view`);
   };
 
   const filteredUsers = users.filter(
@@ -297,7 +297,7 @@ useEffect(() => {
                         <td className="px-4 py-2 whitespace-nowrap">
                           {user.profileImage ? (
                             <img
-                              src={user.profileImage}
+                              src={`http://localhost:5000${user.profileImage}`}
                               alt="Profile"
                               className="h-8 w-8 rounded-full object-cover"
                             />
