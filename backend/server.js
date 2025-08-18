@@ -4,7 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
-const roleAuth = require('./middleware/roleAuth');
+const roleAuth = require("./middleware/roleAuth");
 
 dotenv.config();
 
@@ -31,6 +31,7 @@ app.use("/api/maintenance", require("./routes/maintenance"));
 app.use("/api/appliances", require("./routes/appliances"));
 app.use("/api/packages", require("./routes/packageRoutes"));
 // app.use("/api/payment", require("./routes/payment"));
+app.use('/api/payments', require('./routes/paymentSimple'));
 // app.use('/api/payments', require('./routes/payment'));
 connectDB().then(() => {
   app.listen(5000, () =>

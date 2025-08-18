@@ -21,9 +21,11 @@ househub2/
 │  │  ├─ maintenance.js
 │  │  ├─ packageRoutes.js
 │  │  ├─ payment.js
+│  │  ├─ paymentRoutes.js
 │  │  ├─ property.js
 │  │  ├─ userauth.js
-│  │  └─ userRoutes.js
+│  │  ├─ userRoutes.js
+│  │  └─ webhookRoutes.js
 │  ├─ uploads/
 │  │  ├─ 1751875423281-download.jpeg
 │  │  ├─ 1751875985433-WhatsApp Image 2025-02-19 at 16.11.23_6b7c2004.jpg
@@ -224,7 +226,18 @@ househub2/
 │  │  │  │  │  ├─ page.js
 │  │  │  │  │  └─ page.js.map
 │  │  │  │  ├─ api/
-│  │  │  │  │  └─ checkout/
+│  │  │  │  │  ├─ checkout/
+│  │  │  │  │  │  ├─ route/
+│  │  │  │  │  │  │  ├─ app-build-manifest.json
+│  │  │  │  │  │  │  ├─ app-paths-manifest.json
+│  │  │  │  │  │  │  ├─ build-manifest.json
+│  │  │  │  │  │  │  ├─ next-font-manifest.json
+│  │  │  │  │  │  │  ├─ react-loadable-manifest.json
+│  │  │  │  │  │  │  └─ server-reference-manifest.json
+│  │  │  │  │  │  ├─ route_client-reference-manifest.js
+│  │  │  │  │  │  ├─ route.js
+│  │  │  │  │  │  └─ route.js.map
+│  │  │  │  │  └─ verify-payment/
 │  │  │  │  │     ├─ route/
 │  │  │  │  │     │  ├─ app-build-manifest.json
 │  │  │  │  │     │  ├─ app-paths-manifest.json
@@ -1053,6 +1066,8 @@ househub2/
 │  │  │  │  │  └─ src_app_updateprofilepage_page_jsx_71d9f18a._.js.map
 │  │  │  │  ├─ [root-of-the-server]__0496ac32._.js
 │  │  │  │  ├─ [root-of-the-server]__0496ac32._.js.map
+│  │  │  │  ├─ [root-of-the-server]__0bd97b3e._.js
+│  │  │  │  ├─ [root-of-the-server]__0bd97b3e._.js.map
 │  │  │  │  ├─ [root-of-the-server]__450a0190._.js
 │  │  │  │  ├─ [root-of-the-server]__450a0190._.js.map
 │  │  │  │  ├─ [root-of-the-server]__48b32c58._.js
@@ -1071,6 +1086,8 @@ househub2/
 │  │  │  │  ├─ 884.js
 │  │  │  │  ├─ 911.js
 │  │  │  │  ├─ 962.js
+│  │  │  │  ├─ node_modules_d75dbf86._.js
+│  │  │  │  ├─ node_modules_d75dbf86._.js.map
 │  │  │  │  ├─ node_modules_e0c5847c._.js
 │  │  │  │  ├─ node_modules_e0c5847c._.js.map
 │  │  │  │  ├─ node_modules_next_229848ed._.js
@@ -1688,8 +1705,6 @@ househub2/
 │  │  │  │  ├─ layout.jsx
 │  │  │  │  └─ page.tsx
 │  │  │  ├─ api/
-│  │  │  │  ├─ assign-package/
-│  │  │  │  │  └─ route.js
 │  │  │  │  ├─ checkout/
 │  │  │  │  │  └─ route.js
 │  │  │  │  └─ stripe-webhook/
@@ -1773,6 +1788,12 @@ househub2/
 │  ├─ postcss.config.mjs
 │  ├─ README.md
 │  └─ tsconfig.json
+├─ path/
+│  └─ to/
+│     └─ your/
+│        └─ new/
+│           └─ api/
+│              └─ route.js
 ├─ .env.local
 ├─ .gitignore
 ├─ figma.md

@@ -123,6 +123,71 @@ router.get("/usersign", protect, async (req, res) => {
     res.status(500).json({ message: "Server error while fetching users" });
   }
 });
+router.get("/usersign/:id", protect, async (req, res) => {
+  const user = await UserSign.findById(req.params.id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+  res.json(user);
+});
+// @desc    Update user by ID (Admin or Self)
+// @route   PUT /api/usersign/:id
+// @access  Private
+router.put("/usersign/:id", protect, upload.single("profileImage"), async (req, res) => {
+  try {
+    const user = await UserSign.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Update allowed fields
+    if (req.body.username) user.username = req.body.username;
+    if (req.body.email) user.email = req.body.email;
+    if (req.body.phone) user.phone = req.body.phone;
+    if (req.body.role) user.role = req.body.role;
+
+    // Handle password update
+    if (req.body.password) {
+      user.password = await bcrypt.hash(req.body.password, 10);
+    }
+
+    // Handle profile image update
+    if (req.file) {
+      user.profileImage = `/uploads/${req.file.filename}`;
+    }
+
+    await user.save();
+
+    // Return updated user (password hide karke)
+    const updatedUser = await UserSign.findById(user._id).select("-password");
+    res.json({
+      message: "User updated successfully",
+      user: updatedUser
+    });
+  } catch (error) {
+    console.error("Update user error:", error);
+    res.status(500).json({ 
+      message: "Server error during user update",
+      error: error.message
+    });
+  }
+});
+
+// Delete user by ID
+router.delete("/usersign/:id", protect, async (req, res) => {
+  try {
+    const user = await UserSign.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await UserSign.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Delete user error:", error);
+    res.status(500).json({ message: "Server error while deleting user" });
+  }
+});
 
 // @desc    Authenticate user & get token
 // @route   POST /api/auth/login

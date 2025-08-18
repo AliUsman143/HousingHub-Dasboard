@@ -3,17 +3,20 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const userSignSchema = mongoose.Schema(
   {
-    // subscriptions: [
-    //   {
-    //     packageId: { type: mongoose.Schema.Types.ObjectId, ref: "Package" },
-    //     stripePriceId: String,
-    //     packageType: String,
-    //     price: Number,
-    //     propertiesIncluded: String,
-    //     purchaseDate: { type: Date, default: Date.now },
-    //     status: { type: String, default: "active" },
-    //   },
-    // ],
+    payment: {
+      type: Boolean,
+      default: false
+    },
+    subscriptions: [{
+      packageId: { type: mongoose.Schema.Types.ObjectId, ref: "Package" },
+      stripePriceId: String,
+      packageType: String,
+      price: Number,
+      propertiesIncluded: String,
+      stripeSessionId: String,   // NEW – Checkout session id saved by webhook
+      purchaseDate: { type: Date, default: Date.now },
+      status: { type: String, default: "active" }
+    }],
     username: {
       type: String,
       required: [true, "Username is required"],

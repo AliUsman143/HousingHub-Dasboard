@@ -69,10 +69,7 @@ const page = () => {
           isSidebarOpen ? "lg:ml-64" : "lg:ml-0"
         }`}
       >
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minima quos
-        debitis numquam asperiores corporis officia magnam aliquam molestiae sed
-        facilis maxime odit tenetur, itaque dolorem quae laudantium iure cumque!
-        At?
+     
         <div className="  flex justify-center items-center">
           <div className="w-full max-w-3xl ">
             {" "}

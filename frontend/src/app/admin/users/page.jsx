@@ -126,36 +126,39 @@ useEffect(() => {
   const router = useRouter();
 
   const handleEdit = (userId) => {
-    router.push(`/admin/usersign/${userId}/edit`);
+    router.push(`/admin/users/${userId}/edit`);
   };
 
+ 
   const handleDelete = async (id) => {
-    if (confirm("Are you sure you want to delete this user?")) {
-      try {
-        const token = localStorage.getItem("userToken");
-        const response = await fetch(
-          `http://localhost:5000/api/auth/usersign/${id}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          // Remove from UI
-          setUsers((prev) => prev.filter((user) => user._id !== id));
-        } else {
-          const err = await response.json();
-          alert(err.error || "Failed to delete user");
+  if (confirm("Are you sure you want to delete this user?")) {
+    try {
+      const token = localStorage.getItem("userToken");
+      const response = await fetch(
+        `http://localhost:5000/api/auth/usersign/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      } catch (err) {
-        console.error("Delete error:", err);
-        alert("Server error while deleting");
+      );
+
+      if (response.ok) {
+        setUsers((prev) => prev.filter((user) => user._id !== id));
+        alert("User deleted successfully ✅");
+      } else {
+        const err = await response.json();
+        alert(err.message || "Failed to delete user");
       }
+    } catch (err) {
+      console.error("Delete error:", err);
+      alert("Server error while deleting");
     }
-  };
+  }
+};
+
+
   const handleView = (userId) => {
     router.push(`/admin/users/${userId}/view`);
   };
@@ -243,14 +246,14 @@ useEffect(() => {
           <div className="bg-[#fcfcfc] p-4 sm:p-6 rounded-lg">
             {/* Search and Add User */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-              <button
+              {/* <button
                 onClick={() =>
                   (window.location.href = "/admin/usersign/create")
                 }
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-full sm:w-auto text-center"
               >
                 Add New User
-              </button>
+              </button> */}
               <div className="relative w-full sm:w-64">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <SearchIcon className="h-4 w-4 text-gray-400" />

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
-
+import Link from "next/link";
 // Search Icon Component
 const SearchIcon = ({ className }) => (
   <svg
@@ -249,12 +249,9 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
                 </div>
               </div>
 
+             <Link href="/Dashboard/contractorManagement/create">
               <button
                 className="flex items-center justify-center px-6 py-2 w-full bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors text-sm"
-                onClick={() =>
-                  (window.location.href =
-                    "/Dashboard/contractorManagement/create")
-                }
               >
                 <svg
                   className="h-5 w-5 mr-2"
@@ -272,6 +269,7 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
                 </svg>
                 Add Contractor
               </button>
+              </Link>
             </div>
           </div>
         </div>
