@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../components/sidebar/Sidebarr";
 import Link from "next/link";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const SearchIcon = ({ className }) => (
   <svg
@@ -28,6 +28,10 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [maintenanceStatusFilter, setMaintenanceStatusFilter] = useState("");
   const [appliances, setAppliances] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5); // per page items
+  const [totalPages, setTotalPages] = useState(1);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,8 +52,12 @@ const Page = () => {
   useEffect(() => {
     const fetchAppliances = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/appliances");
-        setAppliances(res.data);
+        const res = await axios.get(
+          `http://localhost:5000/api/appliances?page=${page}&limit=${limit}`
+        );
+        setAppliances(res.data.data); // backend ne "data" key bheji hai
+        setTotalPages(res.data.pages); // backend se pages count aa raha hai
+
         setLoading(false);
       } catch (err) {
         console.error("Error fetching appliances:", err);
@@ -58,7 +66,7 @@ const Page = () => {
       }
     };
     fetchAppliances();
-  }, []);
+  }, [page]);
 
   const router = useRouter();
 
@@ -185,15 +193,12 @@ const Page = () => {
               />
             </svg>
           </button>
-    
+
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
             Property Management
           </h1>
-    
-          <div className="flex items-center space-x-4 md:space-x-6">
-           
-           
-          </div>
+
+          <div className="flex items-center space-x-4 md:space-x-6"></div>
         </div>
 
         <div className="mb-8 px-0 sm:px-5">
@@ -253,10 +258,11 @@ const Page = () => {
               </div>
 
               {/* Add Appliance Button */}
-              <Link href="/Dashboard/applianceManagement/create" className="w-full sm:w-auto">
-                <button
-                  className="flex items-center justify-center px-4 sm:px-6 py-2 w-full bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors text-sm"
-                >
+              <Link
+                href="/Dashboard/applianceManagement/create"
+                className="w-full sm:w-auto"
+              >
+                <button className="flex items-center justify-center px-4 sm:px-6 py-2 w-full bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors text-sm">
                   <svg
                     className="h-5 w-5 mr-2"
                     fill="none"
@@ -329,17 +335,23 @@ const Page = () => {
 
                       <td className="px-2 sm:px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
                         {item.installedBy?.lastServiced
-                          ? new Date(item.installedBy.lastServiced).toLocaleDateString()
+                          ? new Date(
+                              item.installedBy.lastServiced
+                            ).toLocaleDateString()
                           : "-"}
                       </td>
                       <td className="px-2 sm:px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
                         {item.purchasedFrom?.purchaseDate
-                          ? new Date(item.purchasedFrom.purchaseDate).toLocaleDateString()
+                          ? new Date(
+                              item.purchasedFrom.purchaseDate
+                            ).toLocaleDateString()
                           : "-"}
                       </td>
                       <td className="px-2 sm:px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
                         {item.purchasedFrom?.warrantyExpires
-                          ? new Date(item.purchasedFrom.warrantyExpires).toLocaleDateString()
+                          ? new Date(
+                              item.purchasedFrom.warrantyExpires
+                            ).toLocaleDateString()
                           : "-"}
                       </td>
                       <td className="px-2 sm:px-4 py-4 text-sm whitespace-nowrap flex gap-2 sm:gap-3">
@@ -404,6 +416,29 @@ const Page = () => {
                 )}
               </tbody>
             </table>
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex justify-center items-center gap-2 mt-6">
+            <button
+              onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+              disabled={page === 1}
+              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            <span className="px-3 py-1 text-sm">
+              Page {page} of {totalPages}
+            </span>
+
+            <button
+              onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+              disabled={page === totalPages}
+              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+            >
+              Next
+            </button>
           </div>
         </div>
       </main>

@@ -54,15 +54,37 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// ========== GET - All Appliances ==========
+// ========== GET - All Appliances with Pagination ==========
 router.get("/", async (req, res) => {
   try {
-    const appliances = await Appliance.find().sort({ createdAt: -1 });
-    res.status(200).json(appliances);
+    // Query params se page & limit nikalo (defaults: page=1, limit=10)
+    let { page = 1, limit = 10 } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    // Total documents count
+    const total = await Appliance.countDocuments();
+
+    // Data fetch with skip & limit
+    const appliances = await Appliance.find()
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.status(200).json({
+      total,             // Total appliances
+      page,              // Current page
+      pages: Math.ceil(total / limit), // Total pages
+      limit,             // Per page items
+      data: appliances,  // Actual appliances list
+    });
   } catch (error) {
+    console.error("Fetching error:", error.message);
     res.status(500).json({ message: "Fetching error" });
   }
 });
+
 
 // ========== GET - Single Appliance by ID ==========
 router.get("/:id", async (req, res) => {

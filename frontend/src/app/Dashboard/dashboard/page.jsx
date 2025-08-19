@@ -12,39 +12,28 @@ export default function DashboardPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [properties, setProperties] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const sidebarRef = useRef(null);
-    // ❌ setLatestProperty state کی ضرورت نہیں ہے
-    // const [latestProperty, setLatestProperty] = useState(null);
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (isSidebarOpen && sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-                setIsSidebarOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [isSidebarOpen]);
 
     useEffect(() => {
         const checkUserProperties = async () => {
             try {
                 const token = localStorage.getItem('userToken');
                 const response = await axios.get('http://localhost:5000/api/properties', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
+                    headers: { 'Authorization': `Bearer ${token}` },
+                    params: { page: currentPage, limit: 5 } // Added pagination params
                 });
 
-                if (response.data.length === 0) {
+                if (response.data.data.length === 0) {
                     router.push('/Firstuser/addproperty');
                     return;
                 }
 
-                setProperties(response.data);
-                // ❌ یہ لائن ہٹا دیں
-                // setLatestProperty(response.data[0]); 
+                setProperties(response.data.data);
+                setTotalPages(response.data.totalPages);
+                setCurrentPage(response.data.currentPage);
             } catch (error) {
                 console.error('Error fetching properties:', error);
                 setError(error.response?.data?.message || 'Failed to fetch properties');
@@ -54,7 +43,7 @@ export default function DashboardPage() {
         };
 
         checkUserProperties();
-    }, [router]);
+    }, [router, currentPage]); // Added currentPage as dependency
 
     if (loading) {
         return <div>Loading...</div>;
@@ -111,7 +100,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="mb-8">
-                    <h2 className="text-lg font-semibold mb-4">All Your Properties</h2> {/* Title update */}
+                    <h2 className="text-lg font-semibold mb-4">All Your Properties</h2>
                     
                     {loading ? (
                         <div className="flex justify-center items-center h-40 bg-gray-100 rounded-lg">
@@ -127,6 +116,29 @@ export default function DashboardPage() {
                     ) : (
                         <div className="bg-gray-100 text-center py-8 rounded-lg text-gray-500">
                             No properties found. <Link href="/Firstuser/addproperty" className="text-blue-500 hover:underline">Add your first property</Link>
+                        </div>
+                    )}
+                    
+                    {/* Add pagination controls */}
+                    {properties.length > 0 && (
+                        <div className="flex justify-center mt-8 gap-2">
+                            <button 
+                                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                disabled={currentPage === 1}
+                                className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                            >
+                                Previous
+                            </button>
+                            <span className="px-4 py-2">
+                                Page {currentPage} of {totalPages}
+                            </span>
+                            <button 
+                                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                disabled={currentPage === totalPages}
+                                className="px-4 py-2 bg-gray-200 rounded-md disabled:opacity-50"
+                            >
+                                Next
+                            </button>
                         </div>
                     )}
                 </div>

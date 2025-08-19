@@ -2,15 +2,36 @@ const express = require("express");
 const router = express.Router();
 const Contractor = require("../models/contractorModel");
 
-// GET all contractors
+// GET all contractors with pagination
 router.get("/", async (req, res) => {
   try {
-    const contractors = await Contractor.find();
-    res.status(200).json({ contractors });
+    let { page = 1, limit = 10 } = req.query;
+
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    // Total contractors count
+    const total = await Contractor.countDocuments();
+
+    // Fetch with pagination
+    const contractors = await Contractor.find()
+      .sort({ createdAt: -1 }) // latest first (optional)
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    res.status(200).json({
+      total,                  // total contractors
+      page,                   // current page
+      pages: Math.ceil(total / limit), // total pages
+      limit,                  // per page limit
+      data: contractors,      // contractor list
+    });
   } catch (error) {
+    console.error("Error fetching contractors:", error.message);
     res.status(500).json({ message: "Server error", error });
   }
 });
+
 
 // GET single contractor by ID
 router.get("/:id", async (req, res) => {

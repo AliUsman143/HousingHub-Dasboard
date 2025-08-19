@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/sidebar/Sidebarr";
 import Link from "next/link";
+import axios from "axios";
 // Search Icon Component
 const SearchIcon = ({ className }) => (
   <svg
@@ -30,9 +31,11 @@ const ContractorManagement = () => {
   const [filterService, setFilterService] = useState("All");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedContractor, setSelectedContractor] = useState(null);
-const [isEditMode, setIsEditMode] = useState(false); // ⬅️ Add this state
-const [editedContractor, setEditedContractor] = useState(null); // Editable data
-
+  const [isEditMode, setIsEditMode] = useState(false); // ⬅️ Add this state
+  const [editedContractor, setEditedContractor] = useState(null); // Editable data
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5); // per page items
+  const [totalPages, setTotalPages] = useState(1);
   // Close sidebar on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,9 +55,11 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
   useEffect(() => {
     const fetchContractors = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/contractors");
-        const data = await response.json();
-        setContractorsData(data.contractors || []);
+        const response = await axios.get(
+          `http://localhost:5000/api/contractors?page=${page}&limit=${limit}`
+        );
+        setContractorsData(response.data.data);
+        setTotalPages(response.data.pages);
         setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch contractors:", error);
@@ -63,7 +68,7 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
     };
 
     fetchContractors();
-  }, []);
+  }, [page]);
 
   // Handle Delete
   const handleDelete = async (id) => {
@@ -119,23 +124,22 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
   };
 
   const renderField = (label, key) => (
-  <div>
-    <p className="font-bold text-sm">{label}</p>
-    {isEditMode ? (
-      <input
-        type="text"
-        value={editedContractor?.[key] || ""}
-        onChange={(e) =>
-          setEditedContractor({ ...editedContractor, [key]: e.target.value })
-        }
-        className="w-full border rounded px-2 py-1 text-sm"
-      />
-    ) : (
-      <p className="text-base">{selectedContractor?.[key] || "N/A"}</p>
-    )}
-  </div>
-);
-
+    <div>
+      <p className="font-bold text-sm">{label}</p>
+      {isEditMode ? (
+        <input
+          type="text"
+          value={editedContractor?.[key] || ""}
+          onChange={(e) =>
+            setEditedContractor({ ...editedContractor, [key]: e.target.value })
+          }
+          className="w-full border rounded px-2 py-1 text-sm"
+        />
+      ) : (
+        <p className="text-base">{selectedContractor?.[key] || "N/A"}</p>
+      )}
+    </div>
+  );
 
   // Loader
   if (isLoading) {
@@ -189,10 +193,7 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
             Contractor Management
           </h1>
 
-          <div className="flex items-center space-x-4 md:space-x-6">
-          
-         
-          </div>
+          <div className="flex items-center space-x-4 md:space-x-6"></div>
         </div>
 
         {/* Search and Filter */}
@@ -249,26 +250,24 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
                 </div>
               </div>
 
-             <Link href="/Dashboard/contractorManagement/create">
-              <button
-                className="flex items-center justify-center px-6 py-2 w-full bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors text-sm"
-              >
-                <svg
-                  className="h-5 w-5 mr-2"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
-                  ></path>
-                </svg>
-                Add Contractor
-              </button>
+              <Link href="/Dashboard/contractorManagement/create">
+                <button className="flex items-center justify-center px-6 py-2 w-full bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 transition-colors text-sm">
+                  <svg
+                    className="h-5 w-5 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 4v16m8-8H4"
+                    ></path>
+                  </svg>
+                  Add Contractor
+                </button>
               </Link>
             </div>
           </div>
@@ -374,6 +373,28 @@ const [editedContractor, setEditedContractor] = useState(null); // Editable data
               )}
             </tbody>
           </table>
+        </div>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center gap-2 mt-6">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <span className="px-3 py-1 text-sm">
+            Page {page} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </main>
       {/* Contractor Details Modal */}

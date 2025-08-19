@@ -7,6 +7,9 @@ const Page = () => {
   const sidebarRef = useRef(null);
   const [isLoading, setIsLoading] = useState(true);
   const [homeownersData, setHomeownersData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit] = useState(5); // per page items
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -25,10 +28,13 @@ const Page = () => {
   useEffect(() => {
     const fetchHomeowners = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/homeowners");
+        const response = await fetch(
+          `http://localhost:5000/api/homeowners?page=${page}&limit=${limit}`
+        );
         const data = await response.json();
-        setHomeownersData(data.homeowners);
-        setIsLoading(false); 
+        setHomeownersData(data.data);
+        setTotalPages(data.pages);
+        setIsLoading(false);
       } catch (error) {
         console.error("Failed to fetch homeowners:", error);
         setIsLoading(false);
@@ -36,7 +42,7 @@ const Page = () => {
     };
 
     fetchHomeowners();
-  }, []);
+  }, [page]);
 
   const getStatusClasses = (status) => {
     switch (status) {
@@ -146,8 +152,6 @@ const Page = () => {
               Welcome Ali
             </h1>
           </div>
-
-        
         </div>
 
         {/* Stats Cards */}
@@ -274,6 +278,28 @@ const Page = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Pagination Controls */}
+        <div className="flex justify-center items-center gap-2 mt-6">
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+
+          <span className="px-3 py-1 text-sm">
+            Page {page} of {totalPages}
+          </span>
+
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={page === totalPages}
+            className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </main>
     </div>

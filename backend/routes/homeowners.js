@@ -17,15 +17,28 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET: All homeowners
+// GET: All homeowners with pagination
 router.get("/", async (req, res) => {
   try {
-    const homeowners = await Homeowner.find();
-    res.status(200).json({ homeowners });
+    const { page = 1, limit = 10 } = req.query;
+
+    const homeowners = await Homeowner.find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const total = await Homeowner.countDocuments();
+
+    res.status(200).json({
+      data: homeowners,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit),
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch homeowners" });
   }
 });
+
 
 // GET /api/homeowners/:id
 router.get("/:id", async (req, res) => {

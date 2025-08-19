@@ -58,13 +58,29 @@ router.post("/", protect, upload.single("propertyImage"), async (req, res) => {
 });
 
 // Get user's properties
+// Get user's properties
 router.get("/", protect, async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5; // Default to 5 properties per page
+    const skip = (page - 1) * limit;
+
     const properties = await Property.find({ userId: req.user._id })
       .populate('maintenance')
-      .sort({ createdAt: -1 });
-    res.status(200).json(properties);
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const total = await Property.countDocuments({ userId: req.user._id });
+
+    res.status(200).json({
+      data: properties,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalProperties: total
+    });
   } catch (error) {
+    console.error("Error fetching properties:", error.message);
     res.status(500).json({ message: "Error fetching properties" });
   }
 });
